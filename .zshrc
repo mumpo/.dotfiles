@@ -8,6 +8,11 @@ plugins=(git nvm docker dotenv git-prompt)
 
 source $ZSH/oh-my-zsh.sh
 
+# Custom zshrc file
+if [[ -f "$HOME/.zshrc_profile" ]]; then
+	source "$HOME/.zshrc_profile"
+fi
+
 function to_jpg () {
   for f in "$@"
   do

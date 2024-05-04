@@ -1,17 +1,18 @@
-# .config
+# .dotfiles
 
-My personal Mac .config folder
+My personal .dotfiles
 
 ## Installation
 
 First clone the repository
 
 ```shell
-git clone git@github.com:mumpo/.config.git
+git clone git@github.com:mumpo/.dotfiles.git
 ```
 
-Then modify your own .zshrc to source this one
+Then run the install script
 
 ```bash
-source $HOME/.config/.zshrc
+cd .dotfiles
+source install.sh
 ```
