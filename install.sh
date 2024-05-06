@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-stow .
+for d in */ ; do
+    echo "stow $d"
+    stow -D $d
+    stow $d
+done
