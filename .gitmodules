@@ -1,3 +1,9 @@
 [submodule "tmux/.tmux/plugins/tmux"]
 	path = tmux/.tmux/plugins/tmux
 	url = https://github.com/catppuccin/tmux
+[submodule "tmux/.tmux/plugins/tmux-battery"]
+	path = tmux/.tmux/plugins/tmux-battery
+	url = https://github.com/tmux-plugins/tmux-battery
+[submodule "tmux/.tmux/plugins/tmux-online-status"]
+	path = tmux/.tmux/plugins/tmux-online-status
+	url = https://github.com/tmux-plugins/tmux-online-status
