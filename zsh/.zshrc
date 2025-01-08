@@ -4,7 +4,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-plugins=(git nvm docker dotenv git-prompt)
+plugins=(git nvm docker dotenv git-prompt git-auto-fetch)
 
 source $ZSH/oh-my-zsh.sh
 
