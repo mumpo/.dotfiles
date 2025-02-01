@@ -4,7 +4,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-plugins=(git nvm docker dotenv git-prompt git-auto-fetch)
+plugins=(git docker dotenv git-prompt git-auto-fetch)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -76,3 +76,17 @@ function prefix_date() {
 
   echo "Prefix added to $count file(s)."
 }
+
+# Load asdf completions until asdf plugin is fixed
+# See https://github.com/ohmyzsh/ohmyzsh/pull/8837
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+# yarn global packages
+export PATH="$(yarn global bin):$PATH"
+
+# Fuzzy finder key bindings and autocompletion
+# - CTRL-R searches in the command line history
+# - CTRL-T searches files and directories
+# - ALT-C runs cd into a directory
+# - **<TAB> autocompletes with fzf
+source <(fzf --zsh)

@@ -16,3 +16,11 @@ Then run the install script
 cd .dotfiles
 source install.sh
 ```
+
+### Homebrew
+
+Mac packages are installed via Homebrew, and are defined in the `hombrew/Brewfile`. To install them, just run:
+
+```bash
+brew bundle
+```

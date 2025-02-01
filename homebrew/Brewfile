@@ -1,0 +1,6 @@
+brew "asdf"
+# Dependencies for asdf-nodejs
+brew "gpg"
+brew "gawk"
+# Fuzzy finder
+brew "fzf"
