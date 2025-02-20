@@ -4,3 +4,4 @@ brew "gpg"
 brew "gawk"
 # Fuzzy finder
 brew "fzf"
+brew "nvim"

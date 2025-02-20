@@ -1,4 +1,4 @@
 theme = catppuccin-mocha
-font-family = "FiraMono Nerd Font Mono"
+font-family = "FiraCode Nerd Font Mono"
 font-size = 14
 adjust-cell-height = "20%"
