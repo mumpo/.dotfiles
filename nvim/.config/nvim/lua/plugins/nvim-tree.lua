@@ -12,6 +12,9 @@ return {
       enable = true,
       update_root = false,
     },
+    filters = {
+      custom = { "^.git$" },
+    },
     view = {
       width = 30,
       preserve_window_proportions = true,
@@ -36,6 +39,6 @@ return {
     },
   },
   keys = {
-    { "<leader>e", ":NvimTreeFindFileToggle<CR>", desc = "Toggle file tree" },
+    { "<leader>e", "<cmd>NvimTreeFindFileToggle<CR>", desc = "Toggle file tree" },
   },
 }
