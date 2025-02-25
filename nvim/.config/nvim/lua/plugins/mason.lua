@@ -9,7 +9,6 @@ return {
           "html-lsp",
           "css-lsp",
           "prettier",
-          "gopls",
           "typescript-language-server",
         },
       }
@@ -18,6 +17,7 @@ return {
         ensure_installed = {
           "eslint",
           "lua_ls",
+          "gopls",
         },
       }
     end,

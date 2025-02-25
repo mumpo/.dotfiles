@@ -5,10 +5,7 @@
 - Automatically install global versions
 
 ## nvim
-- LSP: code actions
-- Diagnostics keymaps
 - Copilot setup
-- Show documentation or source of variables on autocompletion
 - DAP integration
 - Git diff tools
 - Refactor tools: rename variable as in IntelliJ
