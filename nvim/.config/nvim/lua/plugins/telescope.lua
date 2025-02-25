@@ -1,38 +1,9 @@
-local telescope = require "telescope"
-local telescopeConfig = require "telescope.config"
-local actions = require "telescope.actions"
-
--- Clone the default Telescope configuration
-local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
-
--- I want to search in hidden/dot files.
-table.insert(vimgrep_arguments, "--hidden")
--- I don't want to search in the `.git` directory.
-table.insert(vimgrep_arguments, "--glob")
-table.insert(vimgrep_arguments, "!**/.git/*")
-
 return {
   "nvim-telescope/telescope.nvim",
+  cmd = { "Telescope" },
   tag = "0.1.8",
   -- or                              , branch = '0.1.x',
   dependencies = { "nvim-lua/plenary.nvim" },
-  opts = {
-    defaults = {
-      -- `hidden = true` is not supported in text grep commands.
-      vimgrep_arguments = vimgrep_arguments,
-      mappings = {
-        i = {
-          ["<esc>"] = actions.close,
-        },
-      },
-    },
-    pickers = {
-      find_files = {
-        -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
-        find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-      },
-    },
-  },
   keys = {
     {
       "<leader>fF",
@@ -54,7 +25,35 @@ return {
     { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
     { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recently opened files" },
   },
-  config = function(_, opts)
-    require("telescope").setup(opts)
+  config = function()
+    local telescope = require "telescope"
+    local telescopeConfig = require "telescope.config"
+    local actions = require "telescope.actions"
+
+    -- Clone the default Telescope configuration
+    local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+
+    -- I want to search in hidden/dot files.
+    table.insert(vimgrep_arguments, "--hidden")
+    -- I don't want to search in the `.git` directory.
+    table.insert(vimgrep_arguments, "--glob")
+    table.insert(vimgrep_arguments, "!**/.git/*")
+    require("telescope").setup {
+      defaults = {
+        -- `hidden = true` is not supported in text grep commands.
+        vimgrep_arguments = vimgrep_arguments,
+        mappings = {
+          i = {
+            ["<esc>"] = actions.close,
+          },
+        },
+      },
+      pickers = {
+        find_files = {
+          -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+          find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+        },
+      },
+    }
   end,
 }

@@ -5,4 +5,5 @@ cut -d' ' -f1 .tool-versions | sort \
   | join -a1 - <(asdf plugin list all) \
   | xargs -t -L1 asdf plugin add
 
+corepack enable
 asdf reshim nodejs

@@ -1,3 +1,5 @@
+brew "wget"
+brew "ripgrep"
 brew "asdf"
 # Dependencies for asdf-nodejs
 brew "gpg"
@@ -5,3 +7,5 @@ brew "gawk"
 # Fuzzy finder
 brew "fzf"
 brew "nvim"
+
+cask "ghostty"

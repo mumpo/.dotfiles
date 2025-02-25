@@ -1,24 +1,25 @@
 return {
   "williamboman/mason.nvim",
-  "williamboman/mason-lspconfig.nvim",
-  opts = {
-    ensure_installed = {
-      "lua-language-server",
-      "stylua",
-      "html-lsp",
-      "css-lsp",
-      "prettier",
-      "gopls",
-      "typescript-language-server",
-    },
-  },
-  config = function(_, opts)
-    require("mason").setup(opts)
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      require("mason").setup {
+        ensure_installed = {
+          "stylua",
+          "html-lsp",
+          "css-lsp",
+          "prettier",
+          "gopls",
+          "typescript-language-server",
+        },
+      }
 
-    require("mason-lspconfig").setup {
-      ensure_installed = {
-        "eslint",
-      },
-    }
-  end,
+      require("mason-lspconfig").setup {
+        ensure_installed = {
+          "eslint",
+          "lua_ls",
+        },
+      }
+    end,
+  },
 }
