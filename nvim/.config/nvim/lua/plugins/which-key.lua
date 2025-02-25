@@ -18,9 +18,9 @@ return {
         -- Register leader groups.
         ["<leader>c"] = { name = "+code" },
         ["<leader>d"] = { name = "+debug" },
-        ["<leader>g"] = { name = "+git" },
         ["<leader>f"] = { name = "+find" },
-        ["<leader>x"] = { name = "+trouble" },
+        ["<leader>h"] = { name = "+hunk" },
+        ["<leader>t"] = { name = "+test" },
         -- Other builtin prefixes.
         ["g"] = { name = "+goto" },
         ["["] = { name = "+previous" },

@@ -7,5 +7,7 @@ brew "gawk"
 # Fuzzy finder
 brew "fzf"
 brew "nvim"
+brew "go"
+brew "lazygit"
 
 cask "ghostty"

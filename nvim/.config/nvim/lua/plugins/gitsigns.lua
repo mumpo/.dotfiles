@@ -1,20 +1,34 @@
 return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" },
-  opts = {
-    signs = {
-      add = { text = "│" },
-      untracked = { text = "│" },
-      change = { text = "│" },
-      delete = { text = "│" },
-      topdelete = { text = "│" },
-      changedelete = { text = "│" },
-    },
-  },
   keys = {
     { "<leader>gb", "<cmd>Gitsigns blame_line<cr>", desc = "Blame line" },
   },
-  config = function(_, opts)
-    require("gitsigns").setup(opts)
+  config = function()
+    require("gitsigns").setup {
+      on_attach = function(bufnr)
+        local gitsigns = require "gitsigns"
+
+        local function map(mode, l, r, desc)
+          local opts = { noremap = true, silent = true, desc = desc, buffer = bufnr }
+          vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Actions
+        map("n", "<leader>hs", gitsigns.stage_hunk, "Stage hunk")
+        map("n", "<leader>hr", gitsigns.reset_hunk, "Reset hunk")
+
+        map("n", "<leader>hS", gitsigns.stage_buffer, "Stage buffer")
+        map("n", "<leader>hR", gitsigns.reset_buffer, "Reset buffer")
+        map("n", "<leader>hp", gitsigns.preview_hunk, "Preview hunk")
+        map("n", "<leader>hi", gitsigns.preview_hunk_inline, "Inline preview hunk")
+
+        map("n", "<leader>hb", function()
+          gitsigns.blame_line { full = true }
+        end, "Blame line")
+
+        map("n", "<leader>hd", gitsigns.diffthis, "Show diff")
+      end,
+    }
   end,
 }
