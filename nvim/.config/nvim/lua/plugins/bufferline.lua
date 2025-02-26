@@ -16,10 +16,4 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    require("bufferline").setup(opts)
-
-    vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer" })
-    vim.keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
-  end,
 }

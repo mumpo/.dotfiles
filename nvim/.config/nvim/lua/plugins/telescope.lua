@@ -23,7 +23,7 @@ return {
     { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "File search" },
     { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Grep search" },
     { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
-    { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recently opened files" },
+    { "<leader>fr", "<cmd>Telescope oldfiles only_cwd=true<cr>", desc = "Recently opened files" },
   },
   config = function()
     local telescope = require "telescope"
