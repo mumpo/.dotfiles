@@ -6,6 +6,8 @@ return {
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
     "marilari88/neotest-vitest",
+    "nvim-neotest/neotest-jest",
+    "nvim-neotest/neotest-go",
   },
   keys = function()
     local neotest = require "neotest"
@@ -41,9 +43,23 @@ return {
     }
   end,
   config = function()
+    -- testify makes heavy use of tabs and newlines in the error messages
+    -- which reduces the readability of the generated virtual text.
+    local neotest_ns = vim.api.nvim_create_namespace "neotest"
+    vim.diagnostic.config({
+      virtual_text = {
+        format = function(diagnostic)
+          local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+          return message
+        end,
+      },
+    }, neotest_ns)
+
     require("neotest").setup {
       adapters = {
         require "neotest-vitest",
+        require "neotest-jest",
+        require "neotest-go",
       },
     }
   end,

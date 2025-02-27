@@ -15,6 +15,13 @@ return {
         end
 
         -- Actions
+        map("n", "[h", function()
+          gitsigns.nav_hunk "prev"
+        end, "Go to previous hunk")
+        map("n", "]h", function()
+          gitsigns.nav_hunk "next"
+        end, "Go to next hunk")
+
         map("n", "<leader>hs", gitsigns.stage_hunk, "Stage hunk")
         map("n", "<leader>hr", gitsigns.reset_hunk, "Reset hunk")
 

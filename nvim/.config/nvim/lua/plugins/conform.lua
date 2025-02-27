@@ -6,16 +6,17 @@ return {
       lua = { "stylua" },
       css = { "prettier" },
       html = { "prettier" },
+      json = { "jq" },
       javascript = { "prettier" },
       javascriptreact = { "prettier" },
       typescript = { "prettier" },
       typescriptreact = { "prettier" },
-      go = { "gofmt", "goimports", "golines" },
+      go = { "gofmt", "goimports" },
     },
 
     format_on_save = {
       -- These options will be passed to conform.format()
-      timeout_ms = 500,
+      timeout_ms = 2500,
       lsp_fallback = true,
     },
   },

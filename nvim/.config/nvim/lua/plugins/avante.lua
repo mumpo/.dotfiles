@@ -11,6 +11,9 @@ return {
   opts = {
     provider = "copilot",
     windows = {
+      sidebar_header = {
+        rounded = false,
+      },
       ask = {
         border = "rounded",
       },

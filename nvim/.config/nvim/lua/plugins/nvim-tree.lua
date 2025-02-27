@@ -14,6 +14,7 @@ return {
     },
     filters = {
       custom = { "^.git$" },
+      git_ignored = false,
     },
     view = {
       width = 30,

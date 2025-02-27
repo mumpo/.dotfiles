@@ -6,6 +6,7 @@ return {
       require("mason").setup {
         ensure_installed = {
           "stylua",
+          "jq",
           "html-lsp",
           "css-lsp",
           "prettier",
