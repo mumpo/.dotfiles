@@ -9,5 +9,15 @@ brew "fzf"
 brew "nvim"
 brew "go"
 brew "lazygit"
+# Disk usage tool
+brew "dust"
+# Nicer ls
+brew "eza"
+# Like "cat" but with colors
+brew "bat"
+# Like "find" but better
+brew "fd"
+# Nice customizable prompt
+brew "starship"
 
 cask "ghostty"

@@ -4,7 +4,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-plugins=(git docker dotenv git-prompt git-auto-fetch)
+plugins=(git docker dotenv git-prompt git-auto-fetch asdf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -12,6 +12,8 @@ source $ZSH/oh-my-zsh.sh
 if [[ -f "$HOME/.zshrc_profile" ]]; then
 	source "$HOME/.zshrc_profile"
 fi
+
+alias ll="eza --long --color=always --icons=always --no-filesize --no-user"
 
 function to_jpg () {
   for f in "$@"
@@ -77,12 +79,12 @@ function prefix_date() {
   echo "Prefix added to $count file(s)."
 }
 
-# Load asdf completions until asdf plugin is fixed
-# See https://github.com/ohmyzsh/ohmyzsh/pull/8837
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
 # yarn global packages
 export PATH="$(yarn global bin):$PATH"
+
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+
+# FZF
 
 # Fuzzy finder key bindings and autocompletion
 # - CTRL-R searches in the command line history
@@ -90,3 +92,12 @@ export PATH="$(yarn global bin):$PATH"
 # - ALT-C runs cd into a directory
 # - **<TAB> autocompletes with fzf
 source <(fzf --zsh)
+
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git "
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
+export FZF_TMUX_OPTS=" -p90%,70% "
+
+# Starship
+eval "$(starship init zsh)"
+export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
