@@ -1,3 +1,11 @@
+-- Set the json formatter as jq to pretty print JSON responses
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "json",
+  callback = function(ev)
+    vim.bo[ev.buf].formatprg = "jq"
+  end,
+})
+
 return {
   "rest-nvim/rest.nvim",
   keys = {

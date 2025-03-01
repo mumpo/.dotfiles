@@ -55,11 +55,38 @@ return {
       },
     }, neotest_ns)
 
+    vim.api.nvim_create_autocmd("WinNew", {
+      callback = function()
+        local bufname = vim.api.nvim_buf_get_name(0)
+        if bufname:match "Neotest Summary" then
+          vim.api.nvim_win_set_option(0, "winhighlight", "Normal:NvimTreeNormal")
+        end
+      end,
+    })
+
     require("neotest").setup {
       adapters = {
         require "neotest-vitest",
         require "neotest-jest",
         require "neotest-go",
+      },
+      icons = {
+        expanded = "",
+        child_prefix = "",
+        child_indent = " ",
+        final_child_prefix = "",
+        non_collapsible = "",
+        collapsed = "",
+
+        passed = "",
+        running = "",
+        failed = "",
+        unknown = "",
+      },
+      highlights = {
+        adapter_name = "Bold",
+        dir = "Function",
+        file = "Function",
       },
     }
   end,

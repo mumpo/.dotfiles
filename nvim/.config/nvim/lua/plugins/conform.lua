@@ -6,7 +6,7 @@ return {
       lua = { "stylua" },
       css = { "prettier" },
       html = { "prettier" },
-      json = { "jq" },
+      -- json = { "jq" },
       javascript = { "prettier" },
       javascriptreact = { "prettier" },
       typescript = { "prettier" },
@@ -19,5 +19,8 @@ return {
       timeout_ms = 2500,
       lsp_fallback = true,
     },
+  },
+  keys = {
+    { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
   },
 }

@@ -5,7 +5,6 @@ return {
     require("lualine").setup {
       options = {
         globalstatus = true, -- show line below file explorer
-        theme = bubbles_theme,
         component_separators = "",
         section_separators = { left = "", right = "" },
         disabled_filetypes = { "NvimTree" },

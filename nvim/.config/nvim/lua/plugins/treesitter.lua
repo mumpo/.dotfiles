@@ -6,6 +6,7 @@ return {
     ensure_installed = {
       "bash",
       "go",
+      "gomod",
       "http",
       "javascript",
       "json",
@@ -15,6 +16,9 @@ return {
       "tsx",
       "typescript",
       "vim",
+    },
+    highlight = {
+      enable = true,
     },
   },
   config = function(_, opts)
