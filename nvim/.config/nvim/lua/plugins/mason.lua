@@ -10,7 +10,6 @@ return {
           "html-lsp",
           "css-lsp",
           "prettier",
-          "typescript-language-server",
         },
       }
 
@@ -19,6 +18,7 @@ return {
           "eslint",
           "lua_ls",
           "gopls",
+          "ts_ls",
         },
       }
     end,

@@ -101,3 +101,6 @@ export FZF_TMUX_OPTS=" -p90%,70% "
 # Starship
 eval "$(starship init zsh)"
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
+
+# Podman
+export DOCKER_HOST=unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')

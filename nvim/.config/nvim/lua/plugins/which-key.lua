@@ -20,6 +20,7 @@ return {
         ["<leader>d"] = { name = "+debug" },
         ["<leader>f"] = { name = "+find" },
         ["<leader>h"] = { name = "+hunk" },
+        ["<leader>l"] = { name = "+lazy" },
         ["<leader>r"] = { name = "+rest" },
         ["<leader>t"] = { name = "+test" },
         -- Other builtin prefixes.

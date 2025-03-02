@@ -19,5 +19,9 @@ brew "bat"
 brew "fd"
 # Nice customizable prompt
 brew "starship"
+# Managing docker from the terminal
+brew "lazydocker"
+# Free alternative to Docker desktop
+brew "podman"
 
 cask "ghostty"
