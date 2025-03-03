@@ -12,5 +12,8 @@ map("n", "<S-l>", ":bnext<CR>", opts "Go to next buffer")
 
 map("n", "<leader>bo", ":%bd|e#<CR>", opts "Delete all other buffers")
 
+-- Select all
+map("n", "<C-a>", "gg<S-v>G", opts "Select all")
+
 -- Terminal
 map("t", "<C-z>", "<C-\\><C-n>", opts "Close terminal")

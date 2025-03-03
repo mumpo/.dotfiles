@@ -20,7 +20,4 @@ return {
       lsp_fallback = true,
     },
   },
-  keys = {
-    { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
-  },
 }
