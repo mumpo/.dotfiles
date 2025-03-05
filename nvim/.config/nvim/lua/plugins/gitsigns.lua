@@ -1,9 +1,6 @@
 return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" },
-  keys = {
-    { "<leader>gb", "<cmd>Gitsigns blame_line<cr>", desc = "Blame line" },
-  },
   config = function()
     require("gitsigns").setup {
       on_attach = function(bufnr)
