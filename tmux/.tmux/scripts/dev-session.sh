@@ -11,4 +11,4 @@ tmux_running=$(pgrep tmux)
 
 tmux new-window -n $selected_name -c $selected "nvim; zsh"
 
-tmux split-window -v -l 16 -c "#{pane_current_path}"
+tmux split-window -v -l 12 -c "#{pane_current_path}"
