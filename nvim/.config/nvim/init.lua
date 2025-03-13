@@ -31,3 +31,9 @@ require "colors"
 vim.schedule(function()
   require "mappings"
 end)
+
+-- Until Nvim 0.11.0 is released, quickfix
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.http",
+  command = "set filetype=http",
+})

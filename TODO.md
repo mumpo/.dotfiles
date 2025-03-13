@@ -11,5 +11,8 @@
 - Key mappings for nvim-tree (e.g. search folder)
 - 3-window diff split for conflict solving (use vim-fugitive or others)
 
+## tmux
+- Open lazygit, lazydocker and rainfrog in floating windows
+
 ## other
 - curl tool like postman
