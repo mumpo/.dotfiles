@@ -1,6 +1,6 @@
 local map = vim.keymap.set
 
-local servers = { "lua_ls", "html", "cssls", "gopls", "ts_ls", "eslint" }
+local servers = { "lua_ls", "html", "cssls", "gopls", "ts_ls", "eslint", "yamlls" }
 
 return {
   "neovim/nvim-lspconfig",

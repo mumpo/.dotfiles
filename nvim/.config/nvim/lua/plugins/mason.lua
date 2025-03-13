@@ -3,17 +3,10 @@ return {
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
     "jay-babu/mason-nvim-dap.nvim",
+    "zapling/mason-conform.nvim",
   },
   config = function()
-    require("mason").setup {
-      ensure_installed = {
-        "stylua",
-        "jq",
-        "html-lsp",
-        "css-lsp",
-        "prettier",
-      },
-    }
+    require("mason").setup {}
 
     require("mason-lspconfig").setup {
       ensure_installed = {
@@ -21,6 +14,7 @@ return {
         "lua_ls",
         "gopls",
         "ts_ls",
+        "yamlls",
       },
     }
 
@@ -30,5 +24,7 @@ return {
         "js",
       },
     }
+
+    require("mason-conform").setup()
   end,
 }
