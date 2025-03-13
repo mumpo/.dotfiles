@@ -23,5 +23,7 @@ brew "starship"
 brew "lazydocker"
 # Free alternative to Docker desktop
 brew "podman"
+# Database management TUI
+brew "rainfrog"
 
 cask "ghostty"
