@@ -68,7 +68,11 @@ return {
       adapters = {
         require "neotest-vitest",
         require "neotest-jest",
-        require "neotest-go",
+        require "neotest-go" {
+          experimental = {
+            test_table = true,
+          },
+        },
       },
       icons = {
         expanded = "",
