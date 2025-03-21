@@ -8,6 +8,7 @@ return {
     "marilari88/neotest-vitest",
     "nvim-neotest/neotest-jest",
     "nvim-neotest/neotest-go",
+    "fredrikaverpil/neotest-golang",
   },
   keys = function()
     local neotest = require "neotest"
@@ -68,11 +69,7 @@ return {
       adapters = {
         require "neotest-vitest",
         require "neotest-jest",
-        require "neotest-go" {
-          experimental = {
-            test_table = true,
-          },
-        },
+        require "neotest-golang",
       },
       icons = {
         expanded = "",
