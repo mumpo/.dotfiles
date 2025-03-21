@@ -13,4 +13,7 @@ return {
       enable = false,
     },
   },
+  keys = {
+    { "<leader>rn", "<cmd>Lspsaga rename<cr>", desc = "Rename with LSP", mode = "v" },
+  },
 }
