@@ -25,5 +25,8 @@ brew "lazydocker"
 brew "podman"
 # Database management TUI
 brew "rainfrog"
+# Github CLI
+brew "gh"
 
+cask "cursor"
 cask "ghostty"

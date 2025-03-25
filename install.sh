@@ -5,3 +5,9 @@ for d in */ ; do
     stow -D $d
     stow $d
 done
+
+# Install Brewfile dependencies
+brew bundle --file=homebrew/Brewfile
+
+# Github CLI extensions
+gh extension install dlvhdr/gh-dash
