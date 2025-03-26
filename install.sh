@@ -11,3 +11,5 @@ brew bundle --file=homebrew/Brewfile
 
 # Github CLI extensions
 gh extension install dlvhdr/gh-dash
+
+./macos/macos.sh
