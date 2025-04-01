@@ -30,3 +30,4 @@ brew "gh"
 
 cask "cursor"
 cask "ghostty"
+cask "whatsapp"
