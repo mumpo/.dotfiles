@@ -1,6 +1,15 @@
 local map = vim.keymap.set
 
-local servers = { "lua_ls", "html", "cssls", "gopls", "ts_ls", "eslint", "yamlls" }
+local servers = {
+  "lua_ls",
+  "html",
+  "cssls",
+  "gopls",
+  "jsonls",
+  "ts_ls",
+  "eslint",
+  "yamlls",
+}
 
 return {
   "neovim/nvim-lspconfig",
@@ -49,5 +58,11 @@ return {
     lspconfig.eslint.setup {
       settings = { format = false },
     }
+
+    local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
+    for type, icon in pairs(signs) do
+      local hl = "DiagnosticSign" .. type
+      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+    end
   end,
 }

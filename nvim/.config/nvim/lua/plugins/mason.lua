@@ -13,6 +13,7 @@ return {
         "eslint",
         "lua_ls",
         "gopls",
+        "jsonls",
         "ts_ls",
         "yamlls",
       },
@@ -25,6 +26,8 @@ return {
       },
     }
 
-    require("mason-conform").setup()
+    require("mason-conform").setup {
+      ignore_install = { "prettier" },
+    }
   end,
 }
