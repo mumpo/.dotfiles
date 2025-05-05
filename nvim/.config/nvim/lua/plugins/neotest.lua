@@ -28,6 +28,13 @@ return {
         desc = "Run tests in file",
       },
       {
+        "<leader>tl",
+        function()
+          neotest.run.last()
+        end,
+        desc = "Run last test",
+      },
+      {
         "<leader>ts",
         function()
           neotest.summary.toggle()
@@ -88,6 +95,41 @@ return {
         adapter_name = "Bold",
         dir = "Function",
         file = "Function",
+      },
+      consumers = {
+        notify = function(client)
+          local notify = require "notify"
+          local current_notify
+          local current_pos
+
+          client.listeners.run = function(adapter_id, pos)
+            current_pos = pos
+            current_notify = notify(pos, "info", { title = "Running test", timeout = 20000, icon = "󰚭" })
+          end
+
+          client.listeners.results = function(adapter_id, results)
+            if not current_pos then
+              return
+            end
+
+            local result = results[current_pos]
+
+            if result then
+              if result.status == "passed" then
+                notify(
+                  current_pos,
+                  "info",
+                  { title = "Test passed", icon = "", replace = current_notify, timeout = 3000 }
+                )
+              else
+                notify(current_pos, "error", { title = "Test failed", replace = current_notify, timeout = 3000 })
+              end
+
+              current_pos = nil
+              current_notify = nil
+            end
+          end
+        end,
       },
     }
   end,
