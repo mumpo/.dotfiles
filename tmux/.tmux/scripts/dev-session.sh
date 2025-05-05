@@ -14,3 +14,6 @@ tmux new-window -n $selected_name -c $selected "nvim; zsh"
 tmux split-window -v -l 12 -c "#{pane_current_path}"
 
 tmux select-pane -t 0
+
+# Zoom into first panel
+tmux resize-pane -Z
