@@ -16,7 +16,7 @@ return {
       javascriptreact = { "prettier" },
       typescript = { "prettier" },
       typescriptreact = { "prettier" },
-      go = { "gofmt", "goimports", "golines" },
+      go = { "gofumpt", "goimports", "golines" },
     },
 
     formatters = {
