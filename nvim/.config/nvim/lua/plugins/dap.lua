@@ -4,7 +4,6 @@ return {
     "rcarriga/nvim-dap-ui",
     "nvim-neotest/nvim-nio",
     "leoluz/nvim-dap-go",
-    "mxsdev/nvim-dap-vscode-js",
   },
   keys = {
     {
@@ -143,13 +142,17 @@ return {
 
     require("dap-go").setup()
 
-    require("dap-vscode-js").setup {
-      debugger_path = vim.fn.stdpath "data" .. "/mason/packages/js-debug-adapter",
-      debugger_cmd = { "js-debug-adapter" },
-      adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
+    dap.adapters["pwa-node"] = {
+      type = "server",
+      host = "localhost",
+      port = "${port}",
+      executable = {
+        command = "node",
+        args = { vim.fn.stdpath "data" .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js", "${port}" },
+      },
     }
 
-    for _, language in ipairs { "typescript", "javascript" } do
+    for _, language in ipairs { "typescript", "javascript", "typescriptreact" } do
       dap.configurations[language] = {
         {
           name = "Launch",
@@ -162,6 +165,20 @@ return {
           skipFiles = { "<node_internals>/**" },
           protocol = "inspector",
           console = "integratedTerminal",
+        },
+        {
+          name = "Launch Test Current File (pwa-node with jest)",
+          type = "pwa-node",
+          request = "launch",
+          cwd = vim.fn.getcwd(),
+          runtimeArgs = { "${workspaceFolder}/node_modules/.bin/jest" },
+          runtimeExecutable = "node",
+          args = { "${file}", "--coverage", "false" },
+          rootPath = "${workspaceFolder}",
+          sourceMaps = true,
+          console = "integratedTerminal",
+          internalConsoleOptions = "neverOpen",
+          skipFiles = { "<node_internals>/**", "node_modules/**" },
         },
       }
     end
