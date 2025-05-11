@@ -7,7 +7,6 @@ brew "gawk"
 # Fuzzy finder
 brew "fzf"
 brew "nvim"
-brew "go"
 brew "lazygit"
 # Disk usage tool
 brew "dust"
@@ -30,4 +29,6 @@ brew "gh"
 
 cask "cursor"
 cask "ghostty"
+cask "gimp"
+cask "kitty"
 cask "whatsapp"
