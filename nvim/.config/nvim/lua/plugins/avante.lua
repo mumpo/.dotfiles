@@ -10,6 +10,9 @@ return {
   },
   opts = {
     provider = "copilot",
+    copilot = {
+      model = "claude-3.7-sonnet",
+    },
     windows = {
       sidebar_header = {
         rounded = false,

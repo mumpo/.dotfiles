@@ -6,5 +6,6 @@ return {
   },
   keys = {
     { "gB", "<cmd>GBrowse<cr>", "Open in browser" },
+    { "<leader>gd", "<cmd>Gvdiffsplit<cr>", "Open Git diff tool" },
   },
 }

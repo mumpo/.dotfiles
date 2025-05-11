@@ -19,6 +19,11 @@ return {
         runTermCmd "lazygit",
         desc = "Open lazygit",
       },
+      {
+        "<leader>lG",
+        runTermCmd "gh dash",
+        desc = "Open Github dashboard",
+      },
     }
   end,
 }
