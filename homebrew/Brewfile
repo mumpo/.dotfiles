@@ -27,7 +27,6 @@ brew "rainfrog"
 # Github CLI
 brew "gh"
 
-cask "cursor"
 cask "ghostty"
 cask "gimp"
 cask "kitty"
