@@ -1,0 +1,13 @@
+k9s:
+  cluster: arn:aws:eks:us-east-1:990086776903:cluster/dev-blue
+  namespace:
+    active: tenacious-figs
+    lockFavorites: false
+    favorites:
+      - tenacious-figs
+      - default
+  view:
+    active: po
+  featureGates:
+    nodeShell: false
+  proxy: null

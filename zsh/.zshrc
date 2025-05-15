@@ -109,6 +109,9 @@ export FZF_DEFAULT_OPTS=" \
 eval "$(starship init zsh)"
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
 
+# k9s
+export K9S_CONFIG_DIR=$HOME/.config/k9s
+
 # Podman
 # Needs some testing first
 # export DOCKER_HOST=unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')

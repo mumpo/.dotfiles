@@ -30,6 +30,10 @@ brew "gh"
 brew "tmux"
 # Resource monitor
 brew "btop"
+# Kubernetes CLI
+brew "kubectl"
+# Kubernetes TUI
+brew "k9s"
 
 cask "ghostty"
 cask "gimp"
