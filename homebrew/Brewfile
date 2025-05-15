@@ -26,8 +26,11 @@ brew "podman"
 brew "rainfrog"
 # Github CLI
 brew "gh"
+# tmux
+brew "tmux"
 
 cask "ghostty"
 cask "gimp"
 cask "kitty"
+cask "spotify"
 cask "whatsapp"

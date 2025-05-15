@@ -2,6 +2,10 @@
 
 My personal .dotfiles
 
+## Pre-requisites
+
+You must have `git`, `oh-my-zsh`, `stow` and `brew` installed.
+
 ## Installation
 
 First clone the repository
@@ -24,3 +28,7 @@ Mac packages are installed via Homebrew, and are defined in the `hombrew/Brewfil
 ```bash
 brew bundle
 ```
+
+### Tmux
+
+After opening `tmux`, you can install the TPM dependencies running Cmd + I
