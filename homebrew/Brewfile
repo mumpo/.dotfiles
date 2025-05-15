@@ -28,6 +28,8 @@ brew "rainfrog"
 brew "gh"
 # tmux
 brew "tmux"
+# Resource monitor
+brew "btop"
 
 cask "ghostty"
 cask "gimp"
