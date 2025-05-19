@@ -24,6 +24,7 @@ return {
     { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Grep search" },
     { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
     { "<leader>fr", "<cmd>Telescope oldfiles only_cwd=true<cr>", desc = "Recently opened files" },
+    { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
   },
   config = function()
     local telescope = require "telescope"

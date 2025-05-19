@@ -17,6 +17,18 @@ return {
     "hrsh7th/cmp-nvim-lsp",
   },
   event = { "BufReadPre", "BufNewFile" },
+  keys = {
+    {
+      "<leader>d",
+      vim.diagnostic.open_float,
+      desc = "Show line diagnostics",
+    },
+    {
+      "<leader>D",
+      "<cmd>Telescope diagnostics bufnr=0<CR>",
+      desc = "Show file diagnostics",
+    },
+  },
   config = function()
     local lspconfig = require "lspconfig"
     local cmp_nvim_lsp = require "cmp_nvim_lsp"
@@ -31,8 +43,6 @@ return {
       map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts "Show definitions")
       map("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts "Show implementations")
       map("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts "Show type definitions")
-      map("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts "Show file diagnostics")
-      map("n", "<leader>d", vim.diagnostic.open_float, opts "Show line diagnostics")
       map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
     end
 
@@ -59,7 +69,7 @@ return {
       settings = { format = false },
     }
 
-    local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
+    local signs = { Error = "󰅙", Warning = "", Hint = "", Information = " " }
     for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
