@@ -34,6 +34,8 @@ brew "btop"
 brew "kubectl"
 # Kubernetes TUI
 brew "k9s"
+# Postgres
+brew "postgresql"
 
 cask "ghostty"
 cask "gimp"
