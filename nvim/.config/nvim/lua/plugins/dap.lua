@@ -180,6 +180,18 @@ return {
           internalConsoleOptions = "neverOpen",
           skipFiles = { "<node_internals>/**", "node_modules/**" },
         },
+        {
+          type = "pwa-node",
+          request = "launch",
+          name = "Launch Test Program (pwa-node with vitest)",
+          cwd = vim.fn.getcwd(),
+          program = "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+          args = { "--inspect-brk", "--no-file-parallelism", "run", "${file}" },
+          autoAttachChildProcesses = true,
+          smartStep = true,
+          console = "integratedTerminal",
+          skipFiles = { "<node_internals>/**", "node_modules/**" },
+        },
       }
     end
 
