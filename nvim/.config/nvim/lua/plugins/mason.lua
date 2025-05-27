@@ -9,6 +9,8 @@ return {
     require("mason").setup {}
 
     require("mason-lspconfig").setup {
+      -- Prevent duplicated LSP servers running
+      automatic_enable = false,
       ensure_installed = {
         "eslint",
         "lua_ls",
