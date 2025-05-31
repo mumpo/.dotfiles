@@ -36,6 +36,9 @@ brew "kubectl"
 brew "k9s"
 # Postgres
 brew "postgresql"
+# Hotkeys for macOS
+tap "koekeishiya/formulae"
+brew "skhd"
 
 cask "ghostty"
 cask "gimp"

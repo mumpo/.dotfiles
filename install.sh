@@ -16,6 +16,9 @@ brew bundle --file=homebrew/Brewfile
 # Github CLI extensions
 gh extension install dlvhdr/gh-dash
 
+# Start skhd
+skhd --start-service
+
 echo "Configuring macos variables..."
 
 ./macos/macos.sh
