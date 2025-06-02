@@ -39,6 +39,8 @@ brew "postgresql"
 # Hotkeys for macOS
 tap "koekeishiya/formulae"
 brew "skhd"
+# Video tools
+brew "ffmpeg"
 
 cask "ghostty"
 cask "gimp"
