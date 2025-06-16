@@ -73,6 +73,7 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lsp",
       "saadparwaiz1/cmp_luasnip",
+      "kristijanhusak/vim-dadbod-completion",
     },
     version = false,
     event = "InsertEnter",
@@ -160,6 +161,13 @@ return {
         }),
       }
       ---@diagnostic enable: missing-fields
+
+      cmp.setup.filetype("sql", {
+        sources = cmp.config.sources {
+          { name = "vim-dadbod-completion" },
+          { name = "buffer" },
+        },
+      })
     end,
   },
 }
