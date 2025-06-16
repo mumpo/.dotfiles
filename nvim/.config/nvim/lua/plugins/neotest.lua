@@ -74,7 +74,12 @@ return {
 
     require("neotest").setup {
       adapters = {
-        require "neotest-vitest",
+        require "neotest-vitest" {
+          cwd = function(testFilePath)
+            -- Run this in the context of a monorepo app/package.
+            return vim.fs.root(testFilePath, "node_modules")
+          end,
+        },
         require "neotest-jest",
         require "neotest-golang",
       },
