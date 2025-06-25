@@ -17,3 +17,10 @@ map("n", "<C-a>", "gg<S-v>G", opts "Select all")
 
 -- Terminal
 map("t", "<C-z>", "<C-\\><C-n>", opts "Close terminal")
+
+-- Non-destructive paste
+map("x", "<leader>p", [["_dP]])
+
+-- Yank to system clipboard
+map({ "n", "v" }, "<leader>y", [["+y]])
+map("n", "<leader>Y", [["+Y]])
