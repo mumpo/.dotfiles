@@ -77,7 +77,7 @@ return {
         require "neotest-vitest" {
           cwd = function(testFilePath)
             -- Run this in the context of a monorepo app/package.
-            return vim.fs.root(testFilePath, "node_modules")
+            return vim.fs.root(testFilePath, "package.json")
           end,
         },
         require "neotest-jest",
