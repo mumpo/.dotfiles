@@ -68,6 +68,9 @@ return {
               },
             },
           }
+
+          local react_snippets = require "snippets.react"
+          luasnip.add_snippets("typescriptreact", react_snippets)
         end,
       },
       "hrsh7th/cmp-buffer",
