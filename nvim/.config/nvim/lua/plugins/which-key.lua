@@ -2,10 +2,8 @@ return {
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
-    -- TODO: Update to the latest version when https://github.com/folke/which-key.nvim/issues/482 gets fixed.
-    version = "1.4.3",
     opts = {
-      window = { border = "rounded" },
+      win = { border = "rounded" },
       disable = {
         filetypes = { "alpha" },
       },
@@ -14,55 +12,18 @@ return {
       local wk = require "which-key"
       wk.setup(opts)
 
-      wk.register {
-        -- Register leader groups.
-        ["<leader>c"] = { name = "+code" },
-        ["<leader>d"] = { name = "+debug" },
-        ["<leader>f"] = { name = "+find" },
-        ["<leader>h"] = { name = "+hunk" },
-        ["<leader>l"] = { name = "+lazy" },
-        ["<leader>r"] = { name = "+rest" },
-        ["<leader>t"] = { name = "+test" },
-        -- Other builtin prefixes.
-        ["g"] = { name = "+goto" },
-        ["["] = { name = "+previous" },
-        ["]"] = { name = "+next" },
-        ["="] = { name = "+put" },
-      }
-
-      -- Register all text objects.
-      local i = {
-        [" "] = "Whitespace",
-        ['"'] = 'Balanced "',
-        ["'"] = "Balanced '",
-        ["`"] = "Balanced `",
-        ["("] = "Balanced (",
-        [")"] = "Balanced ) including white-space",
-        [">"] = "Balanced > including white-space",
-        ["<lt>"] = "Balanced <",
-        ["]"] = "Balanced ] including white-space",
-        ["["] = "Balanced [",
-        ["}"] = "Balanced } including white-space",
-        ["{"] = "Balanced {",
-        ["?"] = "User Prompt",
-        _ = "Underscore",
-        a = "Argument",
-        b = "Balanced ), ], }",
-        c = "Class",
-        f = "Function",
-        o = "Block, conditional, loop",
-        q = "Quote `, \", '",
-        t = "Tag",
-      }
-      local a = vim.deepcopy(i)
-      for k, v in pairs(a) do
-        a[k] = v:gsub(" including.*", "")
-      end
-
-      wk.register {
-        mode = { "o", "x" },
-        i = i,
-        a = a,
+      wk.add {
+        { "<leader>c", group = "code" },
+        { "<leader>d", group = "debug" },
+        { "<leader>f", group = "find" },
+        { "<leader>h", group = "hunk" },
+        { "<leader>l", group = "lazy" },
+        { "<leader>r", group = "rest" },
+        { "<leader>t", group = "test" },
+        { "=", group = "put" },
+        { "[", group = "previous" },
+        { "]", group = "next" },
+        { "g", group = "goto" },
       }
     end,
   },
