@@ -9,10 +9,4 @@ return {
       transparent = true,
     },
   },
-  config = function(_, opts)
-    require("catppuccin").setup(opts)
-
-    -- setup must be called before loading
-    vim.cmd.colorscheme "catppuccin"
-  end,
 }

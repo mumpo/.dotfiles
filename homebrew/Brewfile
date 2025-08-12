@@ -40,6 +40,10 @@ brew "skhd"
 # Video tools
 brew "ffmpeg"
 
+# Notify consumers (tmux, nvim) when macOS switches to light/dark mode
+tap "cormacrelf/tap"
+brew "cormacrelf/tap/dark-notify"
+
 cask "ghostty"
 cask "gimp"
 cask "kitty"

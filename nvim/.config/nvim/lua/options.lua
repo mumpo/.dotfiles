@@ -9,5 +9,10 @@ opt.smartindent = true
 opt.shiftwidth = 2
 opt.expandtab = true
 
+-- Allow files to customise editor settings in comments
+opt.modeline = true
+
 -- Disable swap files
 o.swapfile = false
+-- Manual fold method
+o.foldmethod = "manual"

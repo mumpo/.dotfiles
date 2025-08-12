@@ -13,6 +13,8 @@ if [[ -f "$HOME/.zshrc_profile" ]]; then
 	source "$HOME/.zshrc_profile"
 fi
 
+export OS_THEME_MODE=$(dark-notify --exit)
+
 alias ll="eza --long --color=always --icons=always --no-filesize --no-user"
 
 function to_jpg () {
@@ -97,13 +99,23 @@ export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git "
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
 export FZF_TMUX_OPTS=" -p90%,70% "
-# https://github.com/catppuccin/fzf
-export FZF_DEFAULT_OPTS=" \
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
---color=selected-bg:#45475a \
---color=border:#313244,label:#cdd6f4"
+
+if [[ "$OS_THEME_MODE" == "dark" ]]; then
+  # https://github.com/catppuccin/fzf
+  export FZF_DEFAULT_OPTS=" \
+    --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+    --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+    --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+    --color=selected-bg:#45475a \
+    --color=border:#313244,label:#cdd6f4"
+else
+  export FZF_DEFAULT_OPTS=" \
+    --color=bg+:#ddf4ff,bg:#ffffff,spinner:#f5e0dc,hl:#f38ba8 \
+    --color=fg+:#0969da,fg:#24292f,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+    --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+    --color=selected-bg:#45475a \
+    --color=border:#313244,label:#cdd6f4"
+fi
 
 # Starship
 eval "$(starship init zsh)"
@@ -114,4 +126,4 @@ export K9S_CONFIG_DIR=$HOME/.config/k9s
 
 # Podman
 # Needs some testing first
-# export DOCKER_HOST=unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')
+export DOCKER_HOST=unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')
