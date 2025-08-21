@@ -92,6 +92,12 @@ return {
         dir = "Function",
         file = "Function",
       },
+      summary = {
+        -- I keep getting these errors when running tests:
+        -- neotest/lua/neotest/consumers/summary/init.lua:55: E5560: nvim_create_autocmd must not be called in a fast event context
+        -- Until I know how to fix this, I will disable the follow feature.
+        follow = false,
+      },
       consumers = {
         notify = function(client)
           local notify = require "notify"
