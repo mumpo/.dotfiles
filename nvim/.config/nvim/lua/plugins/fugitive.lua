@@ -5,7 +5,8 @@ return {
     "tpope/vim-rhubarb",
   },
   keys = {
-    { "gB", "<cmd>GBrowse<cr>", "Open in browser" },
-    { "<leader>gd", "<cmd>Gvdiffsplit<cr>", "Open Git diff tool" },
+    { "gB", "<cmd>GBrowse<cr>", desc = "Open in browser" },
+    { "<leader>gds", "<cmd>Gvdiffsplit<cr>", desc = "Diff file" },
+    { "<leader>gdm", "<cmd>Gvdiffsplit main<cr>", desc = "Diff file with main" },
   },
 }
