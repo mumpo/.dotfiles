@@ -1,6 +1,8 @@
-theme = dark:catppuccin-mocha,light:github-light-default
+theme = dark:"Catppuccin Mocha",light:"Github Light Default"
 font-family = "FiraCode Nerd Font Mono"
 font-size = 14
 font-thicken = true
 font-thicken-strength = 127
 adjust-cell-height = "20%"
+
+custom-shader = shaders/cursor_smear.glsl
