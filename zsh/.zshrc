@@ -110,9 +110,9 @@ if [[ "$OS_THEME_MODE" == "dark" ]]; then
     --color=border:#313244,label:#cdd6f4"
 else
   export FZF_DEFAULT_OPTS=" \
-    --color=bg+:#ddf4ff,bg:#ffffff,spinner:#f5e0dc,hl:#f38ba8 \
-    --color=fg+:#0969da,fg:#24292f,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-    --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+    --color=bg+:#e1e4e8,bg:#ffffff,spinner:#f5e0dc,hl:#f38ba8 \
+    --color=fg+:#0969da,fg:#24292f,header:#f38ba8,info:#cba6f7,pointer:#0969da \
+    --color=marker:#b4befe,fg+:#0969da,prompt:#8250df,hl+:#cf222e \
     --color=selected-bg:#45475a \
     --color=border:#313244,label:#cdd6f4"
 fi
