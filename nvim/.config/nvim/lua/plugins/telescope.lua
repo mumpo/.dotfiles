@@ -1,9 +1,7 @@
 return {
   "nvim-telescope/telescope.nvim",
   cmd = { "Telescope" },
-  tag = "0.1.8",
-  -- or                              , branch = '0.1.x',
-  dependencies = { "nvim-lua/plenary.nvim" },
+  dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-live-grep-args.nvim" },
   keys = {
     {
       "<leader>fF",
@@ -21,15 +19,20 @@ return {
       desc = "Fuzzy buffer search",
     },
     { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "File search" },
-    { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Grep search" },
+    { "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", desc = "Grep search" },
     { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
     { "<leader>fr", "<cmd>Telescope oldfiles only_cwd=true<cr>", desc = "Recently opened files" },
     { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
+    { "<leader>fw", "<cmd>Telescope lsp_workspace_symbols<cr>", desc = "Workspace symbols" },
   },
   config = function()
     local telescope = require "telescope"
     local telescopeConfig = require "telescope.config"
     local actions = require "telescope.actions"
+    local lga_actions = require "telescope-live-grep-args.actions"
+
+    -- Load the fzf native extension for better performance
+    -- telescope.load_extension "fzf"
 
     -- Clone the default Telescope configuration
     local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
@@ -39,8 +42,11 @@ return {
     -- I don't want to search in the `.git` directory.
     table.insert(vimgrep_arguments, "--glob")
     table.insert(vimgrep_arguments, "!**/.git/*")
-    require("telescope").setup {
+
+    telescope.setup {
       defaults = {
+        -- This makes it so clear to see first the file name and then the path
+        path_display = { "filename_first" },
         -- `hidden = true` is not supported in text grep commands.
         vimgrep_arguments = vimgrep_arguments,
         mappings = {
@@ -55,6 +61,17 @@ return {
           find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
         },
       },
+      extensions = {
+        live_grep_args = {
+          mappings = {
+            i = {
+              ["<C-f>"] = lga_actions.to_fuzzy_refine,
+            },
+          },
+        },
+      },
     }
+
+    telescope.load_extension "live_grep_args"
   end,
 }
