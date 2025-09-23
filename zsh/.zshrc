@@ -127,3 +127,8 @@ export K9S_CONFIG_DIR=$HOME/.config/k9s
 # Podman
 # Needs some testing first
 export DOCKER_HOST=unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')
+
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# tmux
+alias t="~/.tmux/scripts/start.sh"
