@@ -39,6 +39,8 @@ tap "koekeishiya/formulae"
 brew "skhd"
 # Video tools
 brew "ffmpeg"
+# Docker credentials helper (for ECR)
+brew "docker-credential-helper-ecr"
 
 # Notify consumers (tmux, nvim) when macOS switches to light/dark mode
 tap "cormacrelf/tap"
@@ -51,3 +53,7 @@ cask "spotify"
 cask "whatsapp"
 cask "docker"
 cask "calibre"
+# Voice input
+cask "superwhisper"
+# HTTP/S proxy
+cask "mitmproxy"

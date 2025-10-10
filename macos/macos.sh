@@ -7,3 +7,12 @@ sudo nvram SystemAudioVolume=" "
 
 # Disable automatic arrangement of spaces based on most recent use
 defaults write com.apple.dock "mru-spaces" -bool "false"
+
+# Disable "click wallpaper to reveal desktop"
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+
+# Disable automatic arrangement of spaces based on most recent use
+defaults write com.apple.dock "mru-spaces" -bool "false"
+
+# Hide all icons on Desktop
+defaults write com.apple.finder "CreateDesktop" -bool "false"

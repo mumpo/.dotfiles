@@ -1,0 +1,4 @@
+gui:
+  theme:
+    selectedLineBgColor:
+      - '#6c7086'

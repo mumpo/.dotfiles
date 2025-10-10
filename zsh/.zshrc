@@ -132,3 +132,11 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 # tmux
 alias t="~/.tmux/scripts/start.sh"
+
+# lazygit
+# Lazygit doesn't support automatic dark/light mode switching yet
+lazygit() {
+  local mode
+  mode=$(dark-notify --exit 2>/dev/null || echo "light")
+  command lazygit --use-config-file="$HOME/.config/lazygit/config-${mode}.yml" "$@"
+}

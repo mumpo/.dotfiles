@@ -1,4 +1,4 @@
-theme = dark:"Catppuccin Mocha",light:"Github Light Default"
+theme = dark:"Catppuccin Mocha",light:"my-github-light"
 font-family = "FiraCode Nerd Font Mono"
 font-size = 14
 font-thicken = true

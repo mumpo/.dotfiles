@@ -1,4 +1,4 @@
 # Shortcuts to open and/or focus certain apps
 cmd + alt + ctrl - c : open /Applications/Google\ Chrome.app
-cmd + alt + ctrl - t : open /Applications/kitty.app
+cmd + alt + ctrl - t : open /Applications/Ghostty.app
 cmd + alt + ctrl - s : open /Applications/Slack.app

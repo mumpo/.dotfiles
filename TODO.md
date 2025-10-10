@@ -5,13 +5,10 @@
 - Automatically install global versions
 
 ## nvim
-- Copilot setup
 - DAP integration
-- Refactor tools: rename variable as in IntelliJ
-- Key mappings for nvim-tree (e.g. search folder)
 - 3-window diff split for conflict solving (use vim-fugitive or others)
+- Explore https://github.com/sindrets/diffview.nvim
 - Telescope extension for package.json scripts
-- Telescope: multi grep (e.g. file name and extension filters)
 - Workspace tools for monorepos
 
 ## tmux

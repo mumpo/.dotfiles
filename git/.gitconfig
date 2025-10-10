@@ -1,0 +1,9 @@
+[user]
+	email = sergiferriz@gmail.com
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+
+[merge]
+    conflictStyle = zdiff3
+
