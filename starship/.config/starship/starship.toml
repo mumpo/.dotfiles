@@ -49,7 +49,7 @@ format = '[[ $symbol( $version) ]]($style)'
 
 [rust]
 symbol = ""
-format = '[[ $symbol( $version) ]]($style)'
+format = '[$symbol($version)]($style)'
 
 [golang]
 symbol = ""
