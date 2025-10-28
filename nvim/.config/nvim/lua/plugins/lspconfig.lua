@@ -1,13 +1,11 @@
 local map = vim.keymap.set
 
 local servers = {
-  "lua_ls",
   "html",
   "cssls",
   "gopls",
   "jsonls",
   "ts_ls",
-  "eslint",
   "yamlls",
 }
 
@@ -15,6 +13,7 @@ return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
+    "mrcjkb/rustaceanvim",
   },
   event = { "BufReadPre", "BufNewFile" },
   keys = {
@@ -30,32 +29,43 @@ return {
     },
   },
   config = function()
-    local lspconfig = require "lspconfig"
     local cmp_nvim_lsp = require "cmp_nvim_lsp"
-
-    local on_attach = function(_, bufnr)
-      local function opts(desc)
-        return { buffer = bufnr, noremap = true, silent = true, desc = "LSP " .. desc }
-      end
-
-      map("n", "gr", "<cmd>Telescope lsp_references<CR>", opts "Show references")
-      map("n", "gD", vim.lsp.buf.declaration, opts "Go to declaration")
-      map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts "Show definitions")
-      map("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts "Show implementations")
-      map("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts "Show type definitions")
-      map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
-    end
 
     local capabilities = cmp_nvim_lsp.default_capabilities()
 
-    for _, lsp in ipairs(servers) do
-      lspconfig[lsp].setup {
-        on_attach = on_attach,
+    -- Setup LspAttach autocmd for key mappings
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+      callback = function(ev)
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        local bufnr = ev.buf
+
+        local function opts(desc)
+          return { buffer = bufnr, noremap = true, silent = true, desc = "LSP " .. desc }
+        end
+
+        map("n", "gr", "<cmd>Telescope lsp_references<CR>", opts "Show references")
+        map("n", "gD", vim.lsp.buf.declaration, opts "Go to declaration")
+        map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts "Show definitions")
+        map("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts "Show implementations")
+        map("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts "Show type definitions")
+        map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
+
+        if client.server_capabilities.inlayHintProvider then
+          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        end
+      end,
+    })
+
+    -- Configure servers using new API
+    for _, server in ipairs(servers) do
+      vim.lsp.config(server, {
         capabilities = capabilities,
-      }
+      })
     end
 
-    lspconfig.lua_ls.setup {
+    vim.lsp.config("lua_ls", {
+      capabilities = capabilities,
       settings = {
         Lua = {
           diagnostics = {
@@ -63,10 +73,22 @@ return {
           },
         },
       },
-    }
+    })
 
-    lspconfig.eslint.setup {
+    vim.lsp.config("eslint", {
+      capabilities = capabilities,
       settings = { format = false },
+    })
+
+    -- Enable all servers
+    local all_servers = vim.list_extend(vim.deepcopy(servers), { "lua_ls", "eslint" })
+    vim.lsp.enable(all_servers)
+
+    -- Setup rustacean without on_attach since we use LspAttach now
+    vim.g.rustaceanvim = {
+      server = {
+        capabilities = capabilities,
+      },
     }
 
     local signs = { Error = "󰅙", Warning = "", Hint = "", Information = " " }

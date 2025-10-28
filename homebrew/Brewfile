@@ -41,6 +41,8 @@ brew "skhd"
 brew "ffmpeg"
 # Docker credentials helper (for ECR)
 brew "docker-credential-helper-ecr"
+# Tree-sitter CLI (for nvim)
+brew "tree-sitter-cli"
 
 # Notify consumers (tmux, nvim) when macOS switches to light/dark mode
 tap "cormacrelf/tap"
@@ -57,3 +59,5 @@ cask "calibre"
 cask "superwhisper"
 # HTTP/S proxy
 cask "mitmproxy"
+# Audio editor
+cask "audacity"
