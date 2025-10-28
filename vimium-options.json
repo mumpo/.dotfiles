@@ -1,0 +1,4 @@
+{
+  "keyMappings": "map <c-d> scrollFullPageDown\nmap <c-u> scrollFullPageUp\n\nunmap <<\nmap <c-h> moveTabLeft\n\nunmap >>\nmap <c-l> moveTabRight",
+  "settingsVersion": "2.3"
+}
