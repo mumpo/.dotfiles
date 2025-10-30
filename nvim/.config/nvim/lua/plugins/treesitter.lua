@@ -15,8 +15,13 @@ local languages = {
   "vim",
 }
 
+local filetypes = {
+  "typescriptreact",
+}
+vim.list_extend(filetypes, languages)
+
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = languages,
+  pattern = filetypes,
   callback = function()
     vim.treesitter.start()
   end,
