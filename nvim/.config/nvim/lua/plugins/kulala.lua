@@ -52,6 +52,13 @@ return {
         end,
         desc = "Export cURL request to clipboard",
       },
+      {
+        "<leader>rs",
+        function()
+          require("kulala").set_selected_env()
+        end,
+        desc = "Set selected environment",
+      },
     },
     ft = { "http", "rest" },
     opts = {},
