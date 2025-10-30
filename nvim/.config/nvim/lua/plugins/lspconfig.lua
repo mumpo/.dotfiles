@@ -75,13 +75,34 @@ return {
       },
     })
 
+    -- Configure golangci-lint with a custom shared config file
+    vim.lsp.config.golangci_lint_ls = {
+      capabilities = capabilities,
+      init_options = {
+        command = {
+          "golangci-lint",
+          "run",
+          "--config",
+          vim.fn.expand "~/dev/golang-builder/config/golangci.yaml",
+          "--output.json.path=stdout",
+          "--show-stats=false",
+          "--issues-exit-code=1",
+        },
+      },
+      settings = {
+        format = false,
+      },
+    }
+
+    vim.lsp.set_log_level "debug"
+
     vim.lsp.config("eslint", {
       capabilities = capabilities,
       settings = { format = false },
     })
 
     -- Enable all servers
-    local all_servers = vim.list_extend(vim.deepcopy(servers), { "lua_ls", "eslint" })
+    local all_servers = vim.list_extend(vim.deepcopy(servers), { "lua_ls", "golangci_lint_ls", "eslint" })
     vim.lsp.enable(all_servers)
 
     -- Setup rustacean without on_attach since we use LspAttach now
@@ -91,10 +112,16 @@ return {
       },
     }
 
-    local signs = { Error = "󰅙", Warning = "", Hint = "", Information = " " }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-    end
+    vim.diagnostic.config {
+      signs = {
+        active = true,
+        text = {
+          [vim.diagnostic.severity.ERROR] = "󰅙",
+          [vim.diagnostic.severity.WARN] = "",
+          [vim.diagnostic.severity.HINT] = "",
+          [vim.diagnostic.severity.INFO] = " ",
+        },
+      },
+    }
   end,
 }
