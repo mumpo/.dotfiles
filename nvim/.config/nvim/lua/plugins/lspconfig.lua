@@ -94,8 +94,6 @@ return {
       },
     }
 
-    vim.lsp.set_log_level "debug"
-
     vim.lsp.config("eslint", {
       capabilities = capabilities,
       settings = { format = false },
