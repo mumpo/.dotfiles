@@ -114,14 +114,33 @@ return {
           -- docs = { auto_open = false },
         },
         mapping = cmp.mapping.preset.insert {
-          ["<C-k>"] = cmp.mapping.select_prev_item(),
-          ["<C-j>"] = cmp.mapping.select_next_item(),
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<CR>"] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
           },
+          ["<C-n>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              -- Fallback to nvim-cmp navigation if the completion menu is visible
+              cmp.select_next_item()
+              return
+            end
+
+            local bufnr = vim.api.nvim_get_current_buf()
+            local state = vim.b[bufnr].nes_state
+            if state then
+              -- Try to jump to the start of the suggestion edit.
+              -- If already at the start, then apply the pending suggestion and jump to the end of the edit.
+              local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
+                or (
+                  require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit()
+                )
+              return nil
+            else
+              vim.notify("No Copilot NES suggestion available", vim.log.levels.INFO)
+            end
+          end),
           -- Explicitly request completions.
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
@@ -131,8 +150,6 @@ return {
 
             if copilot.is_visible() then
               copilot.accept()
-            elseif cmp.visible() then
-              cmp.select_next_item()
             elseif luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
             else

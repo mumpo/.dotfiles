@@ -13,6 +13,7 @@ local languages = {
   "tsx",
   "typescript",
   "vim",
+  "yaml",
 }
 
 local filetypes = {

@@ -49,7 +49,7 @@ return {
         map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts "Show definitions")
         map("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts "Show implementations")
         map("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts "Show type definitions")
-        map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
+        map({ "n", "v" }, "ga", vim.lsp.buf.code_action, opts "Code action")
 
         if client.server_capabilities.inlayHintProvider then
           vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })

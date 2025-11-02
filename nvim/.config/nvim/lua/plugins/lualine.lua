@@ -24,7 +24,7 @@ return {
             },
           },
         },
-        lualine_x = { "lsp_status" },
+        lualine_x = { { "lsp_status", icon = "󱘖" } },
         lualine_y = { "filetype" },
         lualine_z = {
           { "location", left_padding = 2 },

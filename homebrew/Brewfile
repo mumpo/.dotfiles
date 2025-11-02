@@ -43,6 +43,8 @@ brew "ffmpeg"
 brew "docker-credential-helper-ecr"
 # Tree-sitter CLI (for nvim)
 brew "tree-sitter-cli"
+# Structural search of code
+brew "ast-grep"
 
 # Notify consumers (tmux, nvim) when macOS switches to light/dark mode
 tap "cormacrelf/tap"

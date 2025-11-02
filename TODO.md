@@ -2,7 +2,6 @@
 
 ## asdf
 - Fix zsh autocompletions
-- Automatically install global versions
 
 ## nvim
 - DAP integration
@@ -10,6 +9,7 @@
 - Explore https://github.com/sindrets/diffview.nvim
 - Telescope extension for package.json scripts
 - Workspace tools for monorepos
+- Codecompanion + ClaudeCode ACP: resume conversations (track https://github.com/orgs/agentclientprotocol/discussions/202#discussioncomment-14813341)
 
 ## tmux
 - Open lazygit, lazydocker and rainfrog in floating windows

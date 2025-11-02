@@ -9,6 +9,7 @@ return {
     "nvim-neotest/neotest-jest",
     "nvim-neotest/neotest-go",
     "fredrikaverpil/neotest-golang",
+    "mrcjkb/rustaceanvim",
   },
   keys = function()
     local neotest = require "neotest"
@@ -73,6 +74,7 @@ return {
         },
         require "neotest-jest",
         require "neotest-golang",
+        require "rustaceanvim.neotest",
       },
       icons = {
         expanded = "",
@@ -96,7 +98,10 @@ return {
         -- I keep getting these errors when running tests:
         -- neotest/lua/neotest/consumers/summary/init.lua:55: E5560: nvim_create_autocmd must not be called in a fast event context
         -- Until I know how to fix this, I will disable the follow feature.
-        follow = false,
+        follow = true,
+      },
+      floating = {
+        border = "rounded",
       },
       consumers = {
         notify = function(client)

@@ -86,6 +86,10 @@ export PATH="$(yarn global bin):$PATH"
 
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
+alias asdf_install="$HOME/asdf_install.sh"
+
+alias nvim="ASDF_NODEJS_VERSION=22.12.0 nvim"
+
 # FZF
 
 # Fuzzy finder key bindings and autocompletion

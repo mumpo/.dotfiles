@@ -16,8 +16,10 @@ return {
         "lua_ls",
         "gopls",
         "jsonls",
+        "rust_analyzer",
         "ts_ls",
         "yamlls",
+        "html",
       },
     }
 
