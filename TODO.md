@@ -4,7 +4,9 @@
 - Fix zsh autocompletions
 
 ## nvim
+- List buffer symbols
 - DAP integration
+- PR editor in nvim
 - 3-window diff split for conflict solving (use vim-fugitive or others)
 - Explore https://github.com/sindrets/diffview.nvim
 - Telescope extension for package.json scripts

@@ -52,6 +52,8 @@ return {
         mappings = {
           i = {
             ["<esc>"] = actions.close,
+            ["<C-i>"] = lga_actions.quote_prompt { postfix = " --iglob " },
+            ["<C-f>"] = actions.to_fuzzy_refine,
           },
         },
       },
