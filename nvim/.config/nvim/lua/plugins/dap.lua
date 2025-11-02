@@ -4,6 +4,7 @@ return {
     "rcarriga/nvim-dap-ui",
     "nvim-neotest/nvim-nio",
     "leoluz/nvim-dap-go",
+    "theHamsta/nvim-dap-virtual-text",
   },
   keys = {
     {
@@ -184,7 +185,12 @@ return {
           type = "pwa-node",
           request = "launch",
           name = "Launch Test Program (pwa-node with vitest)",
-          cwd = vim.fn.getcwd(),
+          -- Check the closest monorepo package.json for vitest config
+          cwd = function()
+            local buf_path = vim.api.nvim_buf_get_name(0)
+            return vim.fs.root(buf_path, "package.json") or vim.fn.getcwd()
+          end,
+          rootPath = "${workspaceFolder}",
           program = "${workspaceFolder}/node_modules/vitest/vitest.mjs",
           args = { "--inspect-brk", "--no-file-parallelism", "run", "${file}" },
           autoAttachChildProcesses = true,
