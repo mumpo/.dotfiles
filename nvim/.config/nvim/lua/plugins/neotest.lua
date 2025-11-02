@@ -22,6 +22,13 @@ return {
         desc = "Run nearest test",
       },
       {
+        "<leader>td",
+        function()
+          neotest.run.run { strategy = "dap" }
+        end,
+        desc = "Debug nearest test",
+      },
+      {
         "<leader>tf",
         function()
           neotest.run.run(vim.fn.expand "%")

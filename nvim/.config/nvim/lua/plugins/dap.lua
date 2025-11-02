@@ -2,6 +2,7 @@ return {
   "mfussenegger/nvim-dap",
   dependencies = {
     "rcarriga/nvim-dap-ui",
+    "igorlfs/nvim-dap-view",
     "nvim-neotest/nvim-nio",
     "leoluz/nvim-dap-go",
     "theHamsta/nvim-dap-virtual-text",
@@ -99,13 +100,6 @@ return {
       desc = "Pause",
     },
     {
-      "<leader>dr",
-      function()
-        require("dap").repl.toggle()
-      end,
-      desc = "Toggle REPL",
-    },
-    {
       "<leader>dt",
       function()
         require("dap").terminate()
@@ -116,15 +110,31 @@ return {
     {
       "<leader>du",
       function()
-        require("dapui").toggle {}
+        require("dap-view").toggle {}
       end,
       desc = "Toggle DAP UI",
     },
   },
   config = function()
-    local dap, dapui = require "dap", require "dapui"
+    local dap, dapview = require "dap", require "dap-view"
 
-    require("dapui").setup()
+    dapview.setup {
+      winbar = {
+        sections = { "scopes", "repl", "watches", "exceptions", "breakpoints", "threads" },
+        default_section = "scopes",
+      },
+    }
+
+    require("nvim-dap-virtual-text").setup {
+      only_first_definition = false,
+      virt_text_pos = "inline",
+      display_callback = function(variable)
+        if #variable.value > 30 then
+          return " " .. variable.value:sub(1, 30) .. "..."
+        end
+        return " " .. variable.value
+      end,
+    }
 
     local icons = {
       Stopped = { " ", "DiagnosticWarn", "DapStoppedLine" },
@@ -202,16 +212,16 @@ return {
     end
 
     dap.listeners.before.attach.dapui_config = function()
-      dapui.open()
+      dapview.open()
     end
     dap.listeners.before.launch.dapui_config = function()
-      dapui.open()
+      dapview.open()
     end
     dap.listeners.before.event_terminated.dapui_config = function()
-      dapui.close()
+      dapview.close()
     end
     dap.listeners.before.event_exited.dapui_config = function()
-      dapui.close()
+      dapview.close()
     end
   end,
 }
