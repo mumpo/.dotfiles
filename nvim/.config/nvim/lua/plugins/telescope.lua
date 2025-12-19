@@ -24,6 +24,7 @@ return {
     { "<leader>fr", "<cmd>Telescope oldfiles only_cwd=true<cr>", desc = "Recently opened files" },
     { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
     { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document symbols" },
+    { "<leader>fl", "<cmd>Telescope resume<cr>", desc = "Resume last search" },
   },
   config = function()
     local telescope = require "telescope"
