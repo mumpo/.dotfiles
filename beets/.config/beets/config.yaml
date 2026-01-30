@@ -1,0 +1,8 @@
+directory: ~/beets
+library: ~/data/musiclibrary.db
+import:
+  copy: yes # Copy files to new location
+plugins: musicbrainz fetchart lyrics
+art_filename: cover
+fetchart:
+  sources: filesystem coverart itunes amazon albumart wikipedia google lastfm

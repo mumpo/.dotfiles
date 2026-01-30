@@ -13,6 +13,15 @@ if [[ -f "$HOME/.zshrc_profile" ]]; then
 	source "$HOME/.zshrc_profile"
 fi
 
+# Source all shell scripts from ~/scripts
+SCRIPTS_DIR="$HOME/scripts"
+
+if [[ -d "$SCRIPTS_DIR" ]]; then
+  for script in "$SCRIPTS_DIR"/*.sh; do
+    [[ -r "$script" ]] && source "$script"
+  done
+fi
+
 export OS_THEME_MODE=$(dark-notify --exit)
 
 alias ll="eza --long --color=always --icons=always --no-filesize --no-user"
@@ -85,6 +94,9 @@ function prefix_date() {
 export PATH="$(yarn global bin):$PATH"
 
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+
+# Necessary for uv tools
+export PATH="/Users/sergi.ferriz/.local/bin:$PATH"
 
 alias asdf_install="$HOME/asdf_install.sh"
 

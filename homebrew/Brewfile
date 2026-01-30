@@ -45,6 +45,14 @@ brew "docker-credential-helper-ecr"
 brew "tree-sitter-cli"
 # Structural search of code
 brew "ast-grep"
+# File manager
+brew "yazi"
+# id3v2 tag editor (id3v2 are metadata tags found in mp3 files)
+brew "id3v2"
+# Library to read, create and modify MP4 files (as well as m4a)
+brew "mp4v2"
+# Python package manager (faster than pipx)
+brew "uv"
 
 # Notify consumers (tmux, nvim) when macOS switches to light/dark mode
 tap "cormacrelf/tap"

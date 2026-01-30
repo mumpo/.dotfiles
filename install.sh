@@ -13,6 +13,9 @@ echo "Installing dependencies with Homebrew..."
 # Install Brewfile dependencies
 brew bundle --file=homebrew/Brewfile
 
+echo "Installing uv tools..."
+./uv-tools.sh
+
 # Github CLI extensions
 gh extension install dlvhdr/gh-dash
 
