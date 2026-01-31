@@ -156,3 +156,14 @@ lazygit() {
   mode=$(dark-notify --exit 2>/dev/null || echo "light")
   command lazygit --use-config-file="$HOME/.config/lazygit/config-${mode}.yml" "$@"
 }
+
+# yazi
+# The "y" shell wrapper changes the current working directory when exiting Yazi
+# (unless you exit with uppercase Q).
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
