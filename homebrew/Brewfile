@@ -55,6 +55,18 @@ brew "mp4v2"
 brew "uv"
 # Preview HEIC images in yazi
 brew "imagemagick"
+# Helm CLI
+brew "helm"
+# Alternative to docker desktop for macOS
+brew "colima"
+# Go debugger
+brew "delve"
+# 7-zip (better integrated with yazi)
+brew "p7zip"
+
+# OpenCode CLI
+tap "anomalyco/tap"
+brew "anomalyco/tap/opencode"
 
 # Notify consumers (tmux, nvim) when macOS switches to light/dark mode
 tap "cormacrelf/tap"
@@ -73,3 +85,5 @@ cask "superwhisper"
 cask "mitmproxy"
 # Audio editor
 cask "audacity"
+# Video player
+cask "vlc"

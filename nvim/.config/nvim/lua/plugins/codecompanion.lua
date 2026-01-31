@@ -9,6 +9,15 @@ return {
     extensions = {
       spinner = {},
     },
+    adapters = {
+      acp = {
+        claude_code = function()
+          return require("codecompanion.adapters").extend("claude_code", {
+            env = {},
+          })
+        end,
+      },
+    },
     strategies = {
       chat = {
         adapter = "claude_code",
@@ -43,6 +52,7 @@ Execute these steps to create a draft pull request in GitHub for the current bra
 1. Inspect the current branch changes in reference with the `main` branch
 2. Synthesize the PR title and description
 3. Invoke the `github` MCP tool to open the PR
+4. Once created, open the PR URL in the browser
 
 ## Guidelines:
 - ALWAYS open PRs in "draft" mode.
@@ -93,19 +103,19 @@ Changes ():
     },
   },
   keys = {
-    { "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle CodeCompanion" },
-    { "<leader>ca", "<cmd>CodeCompanionActions<cr>", desc = "CodeCompanion Actions" },
-    {
-      "<leader>ci",
-      function()
-        vim.ui.input({ prompt = "CodeCompanion: " }, function(input)
-          if input and #input > 0 then
-            vim.cmd("'<,'>CodeCompanion " .. input)
-          end
-        end)
-      end,
-      mode = "v",
-      desc = "Run CodeCompanion on selected code",
-    },
+    -- { "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle CodeCompanion" },
+    -- { "<leader>ca", "<cmd>CodeCompanionActions<cr>", desc = "CodeCompanion Actions" },
+    -- {
+    --   "<leader>ci",
+    --   function()
+    --     vim.ui.input({ prompt = "CodeCompanion: " }, function(input)
+    --       if input and #input > 0 then
+    --         vim.cmd("'<,'>CodeCompanion " .. input)
+    --       end
+    --     end)
+    --   end,
+    --   mode = "v",
+    --   desc = "Run CodeCompanion on selected code",
+    -- },
   },
 }

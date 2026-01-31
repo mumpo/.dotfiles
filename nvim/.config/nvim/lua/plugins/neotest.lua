@@ -10,6 +10,7 @@ return {
     "nvim-neotest/neotest-go",
     "fredrikaverpil/neotest-golang",
     "mrcjkb/rustaceanvim",
+    "thenbe/neotest-playwright",
   },
   keys = function()
     local neotest = require "neotest"
@@ -82,6 +83,12 @@ return {
         require "neotest-jest",
         require "neotest-golang",
         require "rustaceanvim.neotest",
+        require("neotest-playwright").adapter {
+          options = {
+            persist_project_selection = true,
+            enable_dynamic_test_discovery = true,
+          },
+        },
       },
       icons = {
         expanded = "",

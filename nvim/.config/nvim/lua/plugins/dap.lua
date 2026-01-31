@@ -86,7 +86,7 @@ return {
       desc = "Step Out",
     },
     {
-      "<leader>dO",
+      "<leader>ds",
       function()
         require("dap").step_over()
       end,
@@ -151,7 +151,17 @@ return {
       )
     end
 
-    require("dap-go").setup()
+    require("dap-go").setup {
+      dap_configurations = {
+        {
+          type = "go",
+          name = "Attach remote",
+          mode = "remote",
+          request = "attach",
+          port = 2345,
+        },
+      },
+    }
 
     dap.adapters["pwa-node"] = {
       type = "server",

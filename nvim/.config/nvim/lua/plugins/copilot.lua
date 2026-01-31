@@ -10,7 +10,7 @@ return {
       auto_trigger = true,
     },
     nes = {
-      enabled = true,
+      enabled = false,
       keymap = {},
     },
     -- Copilot needs Node.js version > 22, so we specify the path to the Node.js binary installed via asdf
@@ -24,7 +24,7 @@ return {
   config = function(_, opts)
     require("copilot").setup(opts)
 
-    vim.lsp.enable "copilot_ls"
+    -- vim.lsp.enable "copilot_ls"
 
     vim.keymap.set({ "n", "i" }, "<C-n>", function()
       local cmp = require "cmp"

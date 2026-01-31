@@ -90,9 +90,6 @@ function prefix_date() {
   echo "Prefix added to $count file(s)."
 }
 
-# yarn global packages
-export PATH="$(yarn global bin):$PATH"
-
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 # Necessary for uv tools
@@ -115,23 +112,38 @@ export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git "
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
 export FZF_TMUX_OPTS=" -p90%,70% "
+export FZF_DEFAULT_OPTS=" \
+  --color=fg:-1
+--color=fg+:-1
+--color=bg:-1
+--color=bg+:12
+--color=pointer:-1
+--color=header:1
+--color=border:4
+--color=hl:16
+--color=hl+:17
+--color=info:21
+--color=prompt:2
+--color=marker:21
+--color=spinner:21
+--color=scrollbar:dim"
 
-if [[ "$OS_THEME_MODE" == "dark" ]]; then
-  # https://github.com/catppuccin/fzf
-  export FZF_DEFAULT_OPTS=" \
-    --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
-    --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-    --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
-    --color=selected-bg:#45475a \
-    --color=border:#313244,label:#cdd6f4"
-else
-  export FZF_DEFAULT_OPTS=" \
-    --color=bg+:#e1e4e8,bg:#ffffff,spinner:#f5e0dc,hl:#f38ba8 \
-    --color=fg+:#0969da,fg:#24292f,header:#f38ba8,info:#cba6f7,pointer:#0969da \
-    --color=marker:#b4befe,fg+:#0969da,prompt:#8250df,hl+:#cf222e \
-    --color=selected-bg:#45475a \
-    --color=border:#313244,label:#cdd6f4"
-fi
+# if [[ "$OS_THEME_MODE" == "dark" ]]; then
+#   # https://github.com/catppuccin/fzf
+#   export FZF_DEFAULT_OPTS=" \
+#     --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+#     --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+#     --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+#     --color=selected-bg:#45475a \
+#     --color=border:#313244,label:#cdd6f4"
+# else
+#   export FZF_DEFAULT_OPTS=" \
+#     --color=bg+:#e1e4e8,bg:#ffffff,spinner:#f5e0dc,hl:#f38ba8 \
+#     --color=fg+:#0969da,fg:#24292f,header:#f38ba8,info:#cba6f7,pointer:#0969da \
+#     --color=marker:#b4befe,fg+:#0969da,prompt:#8250df,hl+:#cf222e \
+#     --color=selected-bg:#45475a \
+#     --color=border:#313244,label:#cdd6f4"
+# fi
 
 # Starship
 eval "$(starship init zsh)"
@@ -142,7 +154,11 @@ export K9S_CONFIG_DIR=$HOME/.config/k9s
 
 # Podman
 # Needs some testing first
-export DOCKER_HOST=unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')
+# export DOCKER_HOST=unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')
+
+# Colima
+export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
+export DOCKER_HOST=unix:///Users/sergi.ferriz/.config/colima/default/docker.sock
 
 export XDG_CONFIG_HOME="$HOME/.config"
 

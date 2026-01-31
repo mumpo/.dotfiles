@@ -28,6 +28,7 @@ return {
         lualine_y = { "filetype" },
         lualine_z = {
           { "location", left_padding = 2 },
+          { require("opencode").statusline },
         },
       },
       inactive_sections = {
