@@ -2,7 +2,15 @@ directory: ~/beets
 library: ~/data/musiclibrary.db
 import:
   copy: yes # Copy files to new location
-plugins: musicbrainz fetchart lyrics
+  detail: yes # Show detailed information about each match it finds
+plugins: musicbrainz fetchart filetote
 art_filename: cover
 fetchart:
   sources: filesystem coverart itunes amazon albumart wikipedia google lastfm
+filetote:
+  pairing:
+    enabled: true
+    pairing_only: true
+    extensions: ".lrc"
+paths:
+  paired_ext:.lrc: $albumpath/$medianame_new
