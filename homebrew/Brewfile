@@ -53,6 +53,8 @@ brew "id3v2"
 brew "mp4v2"
 # Python package manager (faster than pipx)
 brew "uv"
+# Preview HEIC images in yazi
+brew "imagemagick"
 
 # Notify consumers (tmux, nvim) when macOS switches to light/dark mode
 tap "cormacrelf/tap"
