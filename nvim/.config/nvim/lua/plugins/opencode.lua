@@ -13,7 +13,6 @@ return {
         enabled = "tmux",
         tmux = {
           options = "-h -l 90", -- Open in a horizontal split with 40 lines of width
-          focus = true, -- Move focus to the tmux pane when toggling opencode.
         },
       },
     }
@@ -23,13 +22,20 @@ return {
 
     vim.keymap.set({ "n", "x" }, "<leader>ci", function()
       require("opencode").ask("@this: ", { submit = true })
-    end, { desc = "Ask opencode…" })
-    -- vim.keymap.set({ "n", "x" }, "<C-x>", function() require("opencode").select() end,                          { desc = "Execute opencode action…" })
+    end, { desc = "Ask opencode inline" })
+
+    vim.keymap.set({ "n", "x" }, "<leader>cs", function()
+      require("opencode").select()
+    end, { desc = "Execute opencode action…" })
+
     vim.keymap.set({ "n", "t" }, "<leader>cc", function()
       require("opencode").toggle()
     end, { desc = "Toggle opencode" })
     --
-    -- vim.keymap.set({ "n", "x" }, "go",  function() return require("opencode").operator("@this ") end,        { desc = "Add range to opencode", expr = true })
+    vim.keymap.set({ "n", "x" }, "<leader>ct", function()
+      return require("opencode").operator "@this "
+    end, { desc = "Add this to opencode", expr = true })
+
     -- vim.keymap.set("n",          "goo", function() return require("opencode").operator("@this ") .. "_" end, { desc = "Add line to opencode", expr = true })
     --
     -- vim.keymap.set("n", "<S-C-u>", function() require("opencode").command("session.half.page.up") end,   { desc = "Scroll opencode up" })
