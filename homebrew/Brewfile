@@ -72,6 +72,10 @@ brew "anomalyco/tap/opencode"
 tap "cormacrelf/tap"
 brew "cormacrelf/tap/dark-notify"
 
+# Subsonic music player, electron based
+tap "kgarner7/feishin"
+cask "feishin", args: { no_quarantine: true }
+
 cask "ghostty"
 cask "gimp"
 cask "kitty"
