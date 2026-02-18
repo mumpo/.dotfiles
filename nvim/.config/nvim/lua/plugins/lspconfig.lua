@@ -7,6 +7,7 @@ local servers = {
   "jsonls",
   "ts_ls",
   "yamlls",
+  "basedpyright",
 }
 
 return {
