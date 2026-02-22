@@ -12,7 +12,7 @@ return {
       provider = {
         enabled = "tmux",
         tmux = {
-          options = "-h -l 90", -- Open in a horizontal split with 40 lines of width
+          options = "-hf -l 90", -- Full-height horizontal split (takes precedence over existing vertical splits)
         },
       },
     }
@@ -35,6 +35,10 @@ return {
     vim.keymap.set({ "n", "x" }, "<leader>ct", function()
       return require("opencode").operator "@this "
     end, { desc = "Add this to opencode", expr = true })
+
+    vim.keymap.set("n", "<leader>cb", function()
+      return require("opencode").prompt "@buffer "
+    end, { desc = "Add buffer to opencode", expr = true })
 
     -- vim.keymap.set("n",          "goo", function() return require("opencode").operator("@this ") .. "_" end, { desc = "Add line to opencode", expr = true })
     --
