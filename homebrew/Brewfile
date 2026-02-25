@@ -45,24 +45,28 @@ brew "docker-credential-helper-ecr"
 brew "tree-sitter-cli"
 # Structural search of code
 brew "ast-grep"
-# File manager
-brew "yazi"
 # id3v2 tag editor (id3v2 are metadata tags found in mp3 files)
 brew "id3v2"
 # Library to read, create and modify MP4 files (as well as m4a)
 brew "mp4v2"
 # Python package manager (faster than pipx)
 brew "uv"
-# Preview HEIC images in yazi
-brew "imagemagick"
 # Helm CLI
 brew "helm"
 # Alternative to docker desktop for macOS
 brew "colima"
 # Go debugger
 brew "delve"
+
+## Yazi dependencies
+# File manager
+brew "yazi"
+# Preview HEIC images in yazi
+brew "imagemagick"
 # 7-zip (better integrated with yazi)
 brew "p7zip"
+# Preview tag data for audio/video
+brew "media-info"
 
 # OpenCode CLI
 tap "anomalyco/tap"
@@ -74,7 +78,7 @@ brew "cormacrelf/tap/dark-notify"
 
 # Subsonic music player, electron based
 tap "kgarner7/feishin"
-cask "feishin", args: { no_quarantine: true }
+cask "kgarner7/feishin/feishin", args: { no_quarantine: true }
 
 cask "ghostty"
 cask "gimp"
