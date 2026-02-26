@@ -17,6 +17,7 @@ done
 
 go_packages=(
   "github.com/nametake/golangci-lint-langserver@latest"
+  "golang.org/x/tools/gopls@latest"
 )
 
 for package in "${go_packages[@]}"; do

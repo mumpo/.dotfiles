@@ -79,12 +79,13 @@ return {
     -- Configure golangci-lint with a custom shared config file
     vim.lsp.config.golangci_lint_ls = {
       capabilities = capabilities,
+      root_markers = { ".git", "go.mod" },
       init_options = {
         command = {
           "golangci-lint",
           "run",
           "--config",
-          vim.fn.expand "~/dev/golang-builder/config/golangci.yaml",
+          vim.fn.expand "~/.golangci.yml",
           "--output.json.path=stdout",
           "--show-stats=false",
           "--issues-exit-code=1",

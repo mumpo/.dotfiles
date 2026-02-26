@@ -14,7 +14,6 @@ return {
       ensure_installed = {
         "eslint",
         "lua_ls",
-        "gopls",
         "jsonls",
         "rust_analyzer",
         "ts_ls",
