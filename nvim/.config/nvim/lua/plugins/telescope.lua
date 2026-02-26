@@ -19,7 +19,23 @@ return {
       desc = "Fuzzy buffer search",
     },
     { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "File search" },
-    { "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", desc = "Grep search" },
+    {
+      "<leader>fg",
+      ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+      mode = "n",
+      desc = "Grep search",
+    },
+    {
+      "<leader>fg",
+      function()
+        require("telescope-live-grep-args.shortcuts").grep_visual_selection {
+          quote = false,
+          postfix = "",
+        }
+      end,
+      mode = "x",
+      desc = "Grep search (with visual selection)",
+    },
     { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
     { "<leader>fr", "<cmd>Telescope oldfiles only_cwd=true<cr>", desc = "Recently opened files" },
     { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
