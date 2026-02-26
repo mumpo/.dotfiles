@@ -31,6 +31,19 @@
         "chrome-devtools-mcp@latest"
       ]
     },
+    "glean": {
+      "type": "local",
+      "enabled": true,
+      "environment": {
+        "GLEAN_INSTANCE": "{env:GLEAN_INSTANCE}",
+        "GLEAN_API_TOKEN": "{env:GLEAN_API_TOKEN}"
+      },
+      "command": [
+        "npx",
+        "-y",
+        "@gleanwork/local-mcp-server",
+      ]
+    }
     // "excalidraw": {
     //   "type": "local",
     //   "command": [
