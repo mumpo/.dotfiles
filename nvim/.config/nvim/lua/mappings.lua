@@ -10,7 +10,18 @@ map("n", "mk", ":m .-2<CR>==", opts "Move line up")
 map("n", "<S-h>", ":bprevious<CR>", opts "Go to previous buffer")
 map("n", "<S-l>", ":bnext<CR>", opts "Go to next buffer")
 
-map("n", "<leader>bo", ":%bd|e#<CR>", opts "Delete all other buffers")
+-- Close all buffers except the current one.
+-- We use a custom command instead of `:%bd|e#` to avoid alpha dashboard creating a new empty buffer after closing all buffers.
+vim.api.nvim_create_user_command("BufOnly", function()
+  local current = vim.api.nvim_get_current_buf()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if buf ~= current and vim.bo[buf].buflisted then
+      vim.api.nvim_buf_delete(buf, {})
+    end
+  end
+end, {})
+
+map("n", "<leader>bo", ":BufOnly<CR>", opts "Delete all other buffers")
 
 -- Select all
 map("n", "<C-a>", "gg<S-v>G", opts "Select all")
