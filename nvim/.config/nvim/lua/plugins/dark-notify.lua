@@ -1,5 +1,6 @@
 return {
   "cormacrelf/dark-notify",
+  lazy = false,
   config = function()
     local dn = require "dark_notify"
 

@@ -8,16 +8,7 @@ return {
       "<cmd>Telescope find_files no_ignore=true hidden=true<cr>",
       desc = "File search (with hidden and .gitignored)",
     },
-    {
-      "<leader>fb",
-      function()
-        require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
-      end,
-      desc = "Fuzzy buffer search",
-    },
+    { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Open buffers" },
     { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "File search" },
     {
       "<leader>fg",
@@ -41,6 +32,7 @@ return {
     { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
     { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document symbols" },
     { "<leader>fl", "<cmd>Telescope resume<cr>", desc = "Resume last search" },
+    { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Marks" },
   },
   config = function()
     local telescope = require "telescope"

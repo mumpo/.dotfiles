@@ -8,6 +8,7 @@ local languages = {
   "json",
   "lua",
   "markdown",
+  "python",
   "regex",
   "terraform",
   "tsx",

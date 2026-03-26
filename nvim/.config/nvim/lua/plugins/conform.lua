@@ -17,6 +17,7 @@ return {
       typescript = { "prettier" },
       typescriptreact = { "prettier" },
       go = { "gofumpt", "goimports", "golines" },
+      python = { "black" },
     },
 
     formatters = {
@@ -40,7 +41,7 @@ return {
 
       return {
         timeout_ms = 2500,
-        lsp_fallback = true,
+        lsp_fallback = false,
         formatters = formatters_to_run,
       }
     end,

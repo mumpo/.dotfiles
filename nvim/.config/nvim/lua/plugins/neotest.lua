@@ -11,6 +11,7 @@ return {
     "fredrikaverpil/neotest-golang",
     "mrcjkb/rustaceanvim",
     "thenbe/neotest-playwright",
+    "nvim-neotest/neotest-python",
   },
   keys = function()
     local neotest = require "neotest"
@@ -89,6 +90,7 @@ return {
             enable_dynamic_test_discovery = true,
           },
         },
+        require "neotest-python",
       },
       icons = {
         expanded = "",

@@ -8,6 +8,9 @@ return {
   opts = {
     suggestion = {
       auto_trigger = true,
+      keymap = {
+        accept_word = "<C-m>",
+      },
     },
     nes = {
       enabled = false,
