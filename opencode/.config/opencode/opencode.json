@@ -10,12 +10,6 @@
       }
     }
   },
-  "keybinds": {
-    "leader": "ctrl+x",
-    "scrollbar_toggle": "<leader>s",
-    "messages_page_up": "ctrl+u",
-    "messages_page_down": "ctrl+d",
-  },
   "skills": {
     "paths": [
       "~/dev/claude-skills"
@@ -43,7 +37,15 @@
         "-y",
         "@gleanwork/local-mcp-server",
       ]
-    }
+    },
+    "atlassian": {
+      "type": "remote",
+      "enabled": true,
+      "url": "https://mcp.atlassian.com/v1/mcp",
+      "headers": {
+        "Authorization": "Basic {env:ATLASSIAN_BASIC_AUTH}"
+      }
+    },
     // "excalidraw": {
     //   "type": "local",
     //   "command": [

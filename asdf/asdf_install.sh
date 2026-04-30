@@ -18,6 +18,7 @@ done
 go_packages=(
   "github.com/nametake/golangci-lint-langserver@latest"
   "golang.org/x/tools/gopls@latest"
+  "github.com/golangci/golines@latest"
 )
 
 for package in "${go_packages[@]}"; do
@@ -30,8 +31,8 @@ asdf reshim golang
 
 npm_packages=(
   "vscode-langservers-extracted"
-  "@zed-industries/claude-code-acp"
   "@github/copilot-language-server-darwin-arm64"
+  "@mermaid-js/mermaid-cli"
 )
 
 npm install -g "${npm_packages[@]}"

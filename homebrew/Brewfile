@@ -6,6 +6,8 @@ brew "gpg"
 brew "gawk"
 # Fuzzy finder
 brew "fzf"
+# Fuzzy finder for Makefiles and npm/yarn scripts
+brew "fzf-make"
 brew "nvim"
 brew "lazygit"
 # Disk usage tool
@@ -57,6 +59,8 @@ brew "helm"
 brew "colima"
 # Go debugger
 brew "delve"
+# Spreadsheet calculator in the terminal
+brew "sc-im"
 
 ## Yazi dependencies
 # File manager
@@ -68,17 +72,9 @@ brew "p7zip"
 # Preview tag data for audio/video
 brew "media-info"
 
-# OpenCode CLI
-tap "anomalyco/tap"
-brew "anomalyco/tap/opencode"
-
 # Notify consumers (tmux, nvim) when macOS switches to light/dark mode
 tap "cormacrelf/tap"
 brew "cormacrelf/tap/dark-notify"
-
-# Subsonic music player, electron based
-tap "kgarner7/feishin"
-cask "kgarner7/feishin/feishin", args: { no_quarantine: true }
 
 cask "ghostty"
 cask "gimp"
@@ -95,3 +91,4 @@ cask "mitmproxy"
 cask "audacity"
 # Video player
 cask "vlc"
+cask "claude-code"

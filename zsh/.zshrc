@@ -128,6 +128,8 @@ export FZF_DEFAULT_OPTS=" \
 --color=spinner:21
 --color=scrollbar:dim"
 
+alias fm="fzf-make"
+
 # if [[ "$OS_THEME_MODE" == "dark" ]]; then
 #   # https://github.com/catppuccin/fzf
 #   export FZF_DEFAULT_OPTS=" \
@@ -183,3 +185,7 @@ function y() {
 	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
 	rm -f -- "$tmp"
 }
+
+# Mermaid CLI depends on Puppeteer, which depends on this
+# https://github.com/mermaid-js/mermaid-cli/issues/288
+export PUPPETEER_EXECUTABLE_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
