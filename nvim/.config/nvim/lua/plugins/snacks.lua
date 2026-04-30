@@ -8,6 +8,7 @@ return {
       -- Replace vim.ui.select with snacks' picker
       ui_select = true,
     },
+    image = { enabled = true, doc = { enabled = true } },
   },
   keys = {
     {

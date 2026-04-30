@@ -120,6 +120,9 @@ return {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
           },
+          ["<C-y>"] = {
+            i = cmp.mapping.confirm { select = false },
+          },
           ["<C-n>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               -- Fallback to nvim-cmp navigation if the completion menu is visible

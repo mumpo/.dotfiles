@@ -28,16 +28,16 @@ return {
       require("opencode").command "session.select"
     end, { desc = "Select opencode session" })
 
-    vim.keymap.set({ "n", "t" }, "<leader>cc", function()
-      require("opencode").toggle()
-    end, { desc = "Toggle opencode" })
+    -- vim.keymap.set({ "n", "t" }, "<leader>cc", function()
+    --   require("opencode").toggle()
+    -- end, { desc = "Toggle opencode" })
     --
-    vim.keymap.set({ "n", "x" }, "<leader>ct", function()
-      return require("opencode").operator "@this "
-    end, { desc = "Add this to opencode", expr = true })
-
-    vim.keymap.set("n", "<leader>cb", function()
-      return require("opencode").prompt "@buffer "
-    end, { desc = "Add buffer to opencode", expr = true })
+    -- vim.keymap.set({ "n", "x" }, "<leader>ct", function()
+    --   return require("opencode").operator "@this "
+    -- end, { desc = "Add this to opencode", expr = true })
+    --
+    -- vim.keymap.set("n", "<leader>cb", function()
+    --   return require("opencode").prompt "@buffer "
+    -- end, { desc = "Add buffer to opencode", expr = true })
   end,
 }

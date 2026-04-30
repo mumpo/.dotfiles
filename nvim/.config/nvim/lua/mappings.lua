@@ -35,3 +35,6 @@ map("x", "<leader>p", [["_dP]])
 -- Yank to system clipboard
 map({ "n", "v" }, "<leader>y", [["+y]])
 map("n", "<leader>Y", [["+Y]])
+
+-- Open Claude code in a tmux pane
+map("n", "<leader>cc", "<cmd>!tmux split-window -h -l 90 'claude'<CR>", opts "Open Claude in tmux")

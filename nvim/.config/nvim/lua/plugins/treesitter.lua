@@ -40,6 +40,8 @@ return {
       treesitter.setup()
 
       treesitter.install(languages)
+
+      vim.treesitter.language.register("markdown", "octo")
     end,
   },
   {

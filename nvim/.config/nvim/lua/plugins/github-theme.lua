@@ -10,6 +10,7 @@ return {
         DiffAdd = { fg = "NONE", bg = "diff.add" },
         DiffChange = { fg = "NONE", bg = "diff.change" },
         DiffDelete = { fg = "NONE", bg = "diff.delete" },
+        DiffText = { fg = "NONE", bg = "#bec6cf" },
       },
     },
   },

@@ -82,7 +82,7 @@ return {
           end,
         },
         require "neotest-jest",
-        require "neotest-golang",
+        require "neotest-golang" {},
         require "rustaceanvim.neotest",
         require("neotest-playwright").adapter {
           options = {

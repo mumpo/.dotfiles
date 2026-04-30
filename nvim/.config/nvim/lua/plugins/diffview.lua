@@ -23,12 +23,32 @@ return {
 
         local commit = blame[1]:match "^(%w+)"
         if commit and not commit:match "^0+$" then
-          vim.cmd("DiffviewOpen " .. commit .. "^!")
+          local output = vim.fn.systemlist({
+            "gh",
+            "pr",
+            "list",
+            "--search",
+            commit,
+            "--state",
+            "merged",
+            "--json",
+            "number",
+          })[1]
+          if output then
+            local prs = vim.fn.json_decode(output)
+            if #prs == 0 then
+              vim.notify "No PR found for commit"
+              return
+            end
+            local pr_number = prs[1].number
+            vim.cmd("Octo pr edit " .. pr_number)
+            return
+          end
         else
           vim.notify "No commit found (uncommitted line?)"
         end
       end,
-      desc = "Inspect changes on current line's blame",
+      desc = "Inspect PR that introduced the current line's change",
     },
   },
   opts = {

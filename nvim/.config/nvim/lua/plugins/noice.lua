@@ -5,6 +5,7 @@ return {
     -- add any options here
   },
   dependencies = {
-    "MunifTanjim/nui.nvim",
+    -- Pin version, otherwise it breaks
+    { "MunifTanjim/nui.nvim", commit = "aa29efe" },
   },
 }
