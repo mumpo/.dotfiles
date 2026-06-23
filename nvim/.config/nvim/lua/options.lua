@@ -8,6 +8,7 @@ opt.tabstop = 2
 opt.smartindent = true
 opt.shiftwidth = 2
 opt.expandtab = true
+opt.colorcolumn = "80" -- Draw a column at 80 characters length
 
 -- Allow files to customise editor settings in comments
 opt.modeline = true
