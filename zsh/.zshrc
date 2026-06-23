@@ -97,8 +97,6 @@ export PATH="/Users/sergi.ferriz/.local/bin:$PATH"
 
 alias asdf_install="$HOME/asdf_install.sh"
 
-alias nvim="ASDF_NODEJS_VERSION=22.12.0 nvim"
-
 # FZF
 
 # Fuzzy finder key bindings and autocompletion
