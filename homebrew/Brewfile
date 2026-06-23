@@ -34,11 +34,10 @@ brew "btop"
 brew "kubectl"
 # Kubernetes TUI
 brew "k9s"
+# Switch k8s context and namespace easily
+brew "kubectx"
 # Postgres
 brew "postgresql"
-# Hotkeys for macOS
-tap "koekeishiya/formulae"
-brew "skhd"
 # Video tools
 brew "ffmpeg"
 # Docker credentials helper (for ECR)
@@ -61,6 +60,11 @@ brew "colima"
 brew "delve"
 # Spreadsheet calculator in the terminal
 brew "sc-im"
+# Terraform LSP
+tap "hashicorp/tap"
+brew "hashicorp/tap/terraform-ls"
+# Cost-saving tool for llms
+brew "rtk"
 
 ## Yazi dependencies
 # File manager

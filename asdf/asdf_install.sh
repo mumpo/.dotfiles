@@ -33,6 +33,8 @@ npm_packages=(
   "vscode-langservers-extracted"
   "@github/copilot-language-server-darwin-arm64"
   "@mermaid-js/mermaid-cli"
+  "@slidev/cli"
+  "playwright-chromium" # Dependency of slidev to export to pdf
 )
 
 npm install -g "${npm_packages[@]}"
