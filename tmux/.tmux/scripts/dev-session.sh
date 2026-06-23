@@ -1,19 +1,7 @@
 #!/usr/bin/env bash
 
-selected=$(find ~/dev -mindepth 1 -maxdepth 1 -type d | fzf --tmux 80%)
+source ~/.tmux/utils/dev-session.sh
 
-if [[ -z $selected ]]; then
-    exit 0
-fi
+selected=$(select_dev_project)
 
-selected_name=$(basename "$selected" | tr . _)
-tmux_running=$(pgrep tmux)
-
-tmux new-window -n $selected_name -c $selected "nvim; zsh"
-
-tmux split-window -v -l 12 -c "#{pane_current_path}"
-
-tmux select-pane -t 0
-
-# Zoom into first panel
-tmux resize-pane -Z
+start_dev_session "$selected"
