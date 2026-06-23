@@ -38,3 +38,12 @@ map("n", "<leader>Y", [["+Y]])
 
 -- Open Claude code in a tmux pane
 map("n", "<leader>cc", "<cmd>!tmux split-window -h -l 90 'claude'<CR>", opts "Open Claude in tmux")
+
+-- Append a review comment for the current line / visual selection to REVIEW.md
+map("n", "<leader>cr", function()
+  require("utils.review").prompt("n")
+end, opts "Add review comment (line)")
+map("x", "<leader>cr", function()
+  vim.cmd("normal! \27") -- leave visual so '< '> marks are committed
+  require("utils.review").prompt("v")
+end, opts "Add review comment (range)")
