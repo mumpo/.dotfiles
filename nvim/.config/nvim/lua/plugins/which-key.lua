@@ -18,6 +18,7 @@ return {
         { "<leader>f", group = "find" },
         { "<leader>g", group = "git" },
         { "<leader>h", group = "hunk" },
+        { "<leader>i", group = "interactive" },
         { "<leader>l", group = "lazy" },
         { "<leader>r", group = "rest" },
         { "<leader>t", group = "test" },
