@@ -39,7 +39,7 @@ function compress_video () {
   for f in "$@"
   do
     output_file="${f%.*}_compressed.${f##*.}"
-    ffmpeg -i "$f" -vcodec libx264 -crf 28 "$output_file"
+    ffmpeg -i "$f" -map_metadata 0 -vcodec libx264 -crf 28 "$output_file"
     touch -r "$f" "$output_file"
   done
 }

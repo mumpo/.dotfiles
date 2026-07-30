@@ -67,8 +67,11 @@ google_photos_rename() {
       continue
     fi
 
+    # Remove any (N) pattern from filename before searching for JSON
+    local f_cleaned="${f//\([0-9]\)/}"
+
     # Find metadata JSON(s)
-    local matches=( "${f}"*.json )
+    local matches=( "${f_cleaned}"*.json )
 
     if (( ${#matches[@]} == 0 )); then
       log "No metadata JSON found (pattern: '${f}*.json'). Skipping."
