@@ -65,6 +65,8 @@ tap "hashicorp/tap"
 brew "hashicorp/tap/terraform-ls"
 # Cost-saving tool for llms
 brew "rtk"
+# EXIF metadata image editor
+brew "exiftool"
 
 ## Yazi dependencies
 # File manager
