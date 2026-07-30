@@ -1,3 +1,6 @@
 [submodule "yazi/.config/yazi/plugins/mediainfo.yazi"]
 	path = yazi/.config/yazi/plugins/mediainfo.yazi
 	url = git@github.com:boydaihungst/mediainfo.yazi.git
+[submodule "yazi/.config/yazi/plugins/smart-enter.yazi"]
+	path = yazi/.config/yazi/plugins/smart-enter.yazi
+	url = git@github.com:Ape/smart-enter.yazi.git
