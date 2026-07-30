@@ -1,12 +1,21 @@
-directory: ~/beets
+directory: /Volumes/music
 library: ~/data/musiclibrary.db
 import:
   copy: yes # Copy files to new location
   detail: yes # Show detailed information about each match it finds
-plugins: musicbrainz fetchart filetote
+plugins: musicbrainz fetchart embedart convert filetote
 art_filename: cover
 fetchart:
-  sources: filesystem coverart itunes amazon albumart wikipedia google lastfm
+  sources:
+    - filesystem
+    - coverart
+    - itunes
+    - amazon
+    - albumart
+    - wikipedia
+embedart:
+  auto: no
+  clearart_on_import: true
 filetote:
   pairing:
     enabled: true
@@ -14,3 +23,8 @@ filetote:
     extensions: ".lrc"
 paths:
   paired_ext:.lrc: $albumpath/$medianame_new
+convert:
+  auto: yes
+  format: mp3
+  never_convert_lossy_files: yes
+  no_convert: ^format::(ALAC|FLAC) # Negative query: convert only .flac files
