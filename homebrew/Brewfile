@@ -67,6 +67,8 @@ brew "hashicorp/tap/terraform-ls"
 brew "rtk"
 # EXIF metadata image editor
 brew "exiftool"
+# Terminal multiplexer with support for agents
+brew "herdr"
 
 ## Yazi dependencies
 # File manager
@@ -98,3 +100,6 @@ cask "audacity"
 # Video player
 cask "vlc"
 cask "claude-code"
+
+if ENV["HOMEBREW_INSTALL_PERSONAL_DEPENDENCIES"]
+end

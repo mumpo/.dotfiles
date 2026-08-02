@@ -1,0 +1,54 @@
+onboarding = false
+[theme]
+# Until we can't supply different custom theme colors for dark and light themes,
+# I'm stuck with catppuccin-latte for light theme instead of Github light.
+# See https://github.com/herdrdev/herdr/discussions/837.
+name = "catppuccin"
+auto_switch = true
+
+[keys]
+prefix = "ctrl+a"
+settings = ""
+rename_tab = "prefix+,"
+switch_workspace = "prefix+ctrl+1..9"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "vim-herdr-navigation.left"
+description = "navigate left (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "vim-herdr-navigation.down"
+description = "navigate down (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "vim-herdr-navigation.up"
+description = "navigate up (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "vim-herdr-navigation.right"
+description = "navigate right (vim/herdr)"
+
+[[keys.command]]
+key = "prefix+f"
+type = "popup"
+command = "~/.config/herdr/scripts/project-picker.sh"
+description = "open project"
+width = "80%"
+height = "80%"
+
+[ui]
+prompt_new_tab_name = false
+pane_borders = true
+pane_gaps = false
+confirm_close = false
+
+[ui.sidebar.agents]
+rows = [["state_icon", "workspace"], ["agent"]]

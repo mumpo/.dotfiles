@@ -187,3 +187,9 @@ function y() {
 # Mermaid CLI depends on Puppeteer, which depends on this
 # https://github.com/mermaid-js/mermaid-cli/issues/288
 export PUPPETEER_EXECUTABLE_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+# herdr 
+# Rename tabs the instant a new command starts
+for _f in ${HOME}/.config/herdr/plugins/github/herdr-automatic-rename-*/shell/hook.zsh(N); do
+  source $_f; break
+done
