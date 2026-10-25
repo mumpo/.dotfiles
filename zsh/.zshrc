@@ -22,8 +22,6 @@ if [[ -d "$SCRIPTS_DIR" ]]; then
   done
 fi
 
-export OS_THEME_MODE=$(dark-notify --exit)
-
 alias ll="eza --long --color=always --icons=always --no-filesize --no-user"
 
 function to_jpg () {
@@ -128,24 +126,8 @@ export FZF_DEFAULT_OPTS=" \
 
 alias fm="fzf-make"
 
-# if [[ "$OS_THEME_MODE" == "dark" ]]; then
-#   # https://github.com/catppuccin/fzf
-#   export FZF_DEFAULT_OPTS=" \
-#     --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
-#     --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-#     --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
-#     --color=selected-bg:#45475a \
-#     --color=border:#313244,label:#cdd6f4"
-# else
-#   export FZF_DEFAULT_OPTS=" \
-#     --color=bg+:#e1e4e8,bg:#ffffff,spinner:#f5e0dc,hl:#f38ba8 \
-#     --color=fg+:#0969da,fg:#24292f,header:#f38ba8,info:#cba6f7,pointer:#0969da \
-#     --color=marker:#b4befe,fg+:#0969da,prompt:#8250df,hl+:#cf222e \
-#     --color=selected-bg:#45475a \
-#     --color=border:#313244,label:#cdd6f4"
-# fi
-
 # Starship
+# Disabled temporarily, as it takes too long to load
 eval "$(starship init zsh)"
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
 

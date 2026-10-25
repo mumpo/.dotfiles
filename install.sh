@@ -22,6 +22,9 @@ gh extension install dlvhdr/gh-dash
 # Start skhd
 skhd --start-service
 
+# Install tmux-sess for session and worktree management
+source tmux/.tmux/scripts/install_tmux_sess.sh
+
 # Fixing buildx in Apple Silicon
 # https://gist.github.com/Aeonitis/cbd9f8b61eaec5a8a024c0a42f415ca3
 
