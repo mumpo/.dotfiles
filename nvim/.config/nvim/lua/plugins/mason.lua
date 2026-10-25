@@ -15,7 +15,6 @@ return {
         "eslint",
         "lua_ls",
         "jsonls",
-        "rust_analyzer",
         "ts_ls",
         "yamlls",
         "html",

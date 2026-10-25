@@ -10,6 +10,7 @@ local languages = {
   "markdown",
   "python",
   "regex",
+  "rust",
   "terraform",
   "tsx",
   "typescript",

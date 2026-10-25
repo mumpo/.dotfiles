@@ -17,6 +17,7 @@ return {
       typescript = { "prettier" },
       typescriptreact = { "prettier" },
       go = { "gofumpt", "goimports", "golines" },
+      rust = { "rustfmt" },
       python = { "black" },
     },
 

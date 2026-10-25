@@ -43,3 +43,9 @@ asdf reshim nodejs
 
 # corepack enable
 # asdf reshim nodejs
+
+## rust
+# Install rust-analyzer LSP
+rustup component add rust-analyzer
+
+asdf reshim rust

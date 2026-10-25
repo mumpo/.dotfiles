@@ -12,10 +12,15 @@ local servers = {
 
 return {
   {
+    "mrcjkb/rustaceanvim",
+    -- This plugin implements proper lazy-loading (see :h lua-plugin-lazy).
+    -- No need for lazy.nvim to lazy-load it.
+    lazy = false,
+  },
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
-      "mrcjkb/rustaceanvim",
     },
     event = { "BufReadPre", "BufNewFile" },
     keys = {
@@ -110,11 +115,11 @@ return {
       vim.lsp.enable(all_servers)
 
       -- Setup rustacean without on_attach since we use LspAttach now
-      vim.g.rustaceanvim = {
-        server = {
-          capabilities = capabilities,
-        },
-      }
+      -- vim.g.rustaceanvim = {
+      --   server = {
+      --     capabilities = capabilities,
+      --   },
+      -- }
 
       vim.diagnostic.config {
         signs = {
