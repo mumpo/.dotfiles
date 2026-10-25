@@ -100,6 +100,11 @@ cask "audacity"
 # Video player
 cask "vlc"
 cask "claude-code"
+# MacOS better launcher
+cask "raycast"
 
-if ENV["HOMEBREW_INSTALL_PERSONAL_DEPENDENCIES"]
+if [[ $HOMEBREW_INSTALL_PERSONAL_DEPENDENCIES == "true" ]]
+  # Subsonic music player, electron based
+  tap "kgarner7/feishin"
+  cask "feishin", args: { no_quarantine: true } if [[ $HOMEBREW_INSTALL_PERSONAL_DEPENDENCIES == "true" ]]
 end
