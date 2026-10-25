@@ -16,3 +16,6 @@ defaults write com.apple.dock "mru-spaces" -bool "false"
 
 # Hide all icons on Desktop
 defaults write com.apple.finder "CreateDesktop" -bool "false"
+
+# Prevent macOS writing ._DS_Store files to SMB shares
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
