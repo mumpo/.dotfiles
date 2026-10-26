@@ -6,6 +6,9 @@ onboarding = false
 name = "catppuccin"
 auto_switch = true
 
+[theme.custom.light]
+# TODO: get colors from github light theme
+
 [keys]
 prefix = "ctrl+a"
 settings = ""
