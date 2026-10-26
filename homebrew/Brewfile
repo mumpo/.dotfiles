@@ -22,8 +22,6 @@ brew "fd"
 brew "starship"
 # Managing docker from the terminal
 brew "lazydocker"
-# Free alternative to Docker desktop
-brew "podman"
 # Github CLI
 brew "gh"
 # tmux
@@ -89,7 +87,6 @@ cask "gimp"
 cask "kitty"
 cask "spotify"
 cask "whatsapp"
-cask "docker"
 cask "calibre"
 # Voice input
 cask "superwhisper"
@@ -103,8 +100,17 @@ cask "claude-code"
 # MacOS better launcher
 cask "raycast"
 
-if [[ $HOMEBREW_INSTALL_PERSONAL_DEPENDENCIES == "true" ]]
+if ENV["HOMEBREW_INSTALL_WORK_DEPENDENCIES"] == "true"
+  # Database access gatekeeper
+  tap "hoophq/brew", "https://github.com/hoophq/brew.git"
+  brew "hoophq/brew/hoop"
+
+  # Alternative to Docker desktop
+  cask "rancher"
+end
+
+if ENV["HOMEBREW_INSTALL_PERSONAL_DEPENDENCIES"] == "true"
   # Subsonic music player, electron based
   tap "kgarner7/feishin"
-  cask "feishin", args: { no_quarantine: true } if [[ $HOMEBREW_INSTALL_PERSONAL_DEPENDENCIES == "true" ]]
+  cask "feishin", args: { no_quarantine: true }
 end
