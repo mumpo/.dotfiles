@@ -138,9 +138,9 @@ export K9S_CONFIG_DIR=$HOME/.config/k9s
 # Needs some testing first
 # export DOCKER_HOST=unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')
 
-# Colima
+# Colima -- disabled for now while testing rancher
 export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
-export DOCKER_HOST=unix:///Users/sergi.ferriz/.config/colima/default/docker.sock
+# export DOCKER_HOST=unix:///Users/sergi.ferriz/.config/colima/default/docker.sock
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
