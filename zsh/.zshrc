@@ -88,6 +88,9 @@ function prefix_date() {
   echo "Prefix added to $count file(s)."
 }
 
+# Rancher-desktop config
+export PATH="$HOME/.rd/bin:$PATH"
+
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 # Necessary for uv tools
