@@ -3,8 +3,6 @@
 install_tmux_sess() (
   echo "Installing tmux-sess..."
 
-  gh auth login
-
   tmux_sess_download_dir=$(mktemp -d)
   cd "$tmux_sess_download_dir"
 
@@ -15,6 +13,8 @@ install_tmux_sess() (
 
   mkdir -p "$HOME/.local/bin"
   install -m 755 tmux-sess "$HOME/.local/bin/tmux-sess"
+
+  echo "Installed tmux-sess successfully"
 )
 
 install_tmux_sess
