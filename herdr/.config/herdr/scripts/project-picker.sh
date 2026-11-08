@@ -2,7 +2,7 @@
 set -euo pipefail
 
 project="$(
-  find "$HOME/dev" -mindepth 1 -maxdepth 1 -type d |
+  find "$HOME/dev" -mindepth 2 -maxdepth 2 -type d |
     sort |
     fzf \
       --prompt="Project > " \
@@ -60,7 +60,7 @@ wait_for_shell "$nvim_pane_id"
 "$herdr" pane run "$nvim_pane_id" "nvim"
 
 create_tab() {
-  local tab_cmd="$1"
+  local tab_cmd="${1:-}"
 
   tab_json="$(
     "$herdr" tab create \
@@ -69,10 +69,12 @@ create_tab() {
       --no-focus
   )"
 
-  new_pane_id="$(jq -r '.result.root_pane.pane_id' <<<"$tab_json")"
-  wait_for_shell "$new_pane_id"
-  "$herdr" pane run "$new_pane_id" "$tab_cmd"
+  if [[ -n "$tab_cmd" ]]; then
+    new_pane_id="$(jq -r '.result.root_pane.pane_id' <<<"$tab_json")"
+    wait_for_shell "$new_pane_id"
+    "$herdr" pane run "$new_pane_id" "$tab_cmd"
+  fi
 }
 
-# create_tab "lazygit"
-# create_tab "claude"
+create_tab "claude"
+create_tab
