@@ -5,3 +5,12 @@ tmux/.tmux/plugins
 
 # k9s clusters
 k9s/.config/k9s/clusters
+
+# herdr runtime state
+herdr/.config/herdr/*.log
+herdr/.config/herdr/*.sock*
+herdr/.config/herdr/session.json
+herdr/.config/herdr/session-snapshots/
+herdr/.config/herdr/.plugins.lock
+herdr/.config/herdr/plugins.json
+herdr/.config/herdr/plugins/github-installations/

@@ -5,6 +5,10 @@ return {
     vim.g.tmux_navigator_no_mappings = 1
   end,
   config = function()
-    dofile(vim.fn.expand "~/.config/herdr/plugins/github/vim-herdr-navigation-*/editor/nvim.lua")
+    local pattern = "~/.config/herdr/plugins/github-installations/vim-herdr-navigation-*/*/checkout/editor/nvim.lua"
+    local matches = vim.fn.glob(vim.fn.expand(pattern), false, true)
+    if #matches > 0 then
+      dofile(matches[#matches])
+    end
   end,
 }
