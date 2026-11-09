@@ -113,4 +113,7 @@ if ENV["HOMEBREW_INSTALL_PERSONAL_DEPENDENCIES"] == "true"
   # Subsonic music player, electron based
   tap "kgarner7/feishin"
   cask "feishin", args: { no_quarantine: true }
+
+  # OpenAI coding agent
+  cask "codex"
 end
