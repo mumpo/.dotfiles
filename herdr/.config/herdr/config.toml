@@ -1,13 +1,28 @@
 onboarding = false
 [theme]
-# Until we can't supply different custom theme colors for dark and light themes,
-# I'm stuck with catppuccin-latte for light theme instead of Github light.
-# See https://github.com/herdrdev/herdr/discussions/837.
-name = "catppuccin"
+dark_name = "catppuccin"
 auto_switch = true
 
 [theme.custom.light]
-# TODO: get colors from github light theme
+panel_bg = "#f6f8fa"
+sidebar_bg = "#d1d2d4"
+active_row_bg = "#24292e"
+selection_bg = "#d2e2f5"
+surface0 = "#24292e"
+surface1 = "#959da5"
+surface_dim = "#e2e4e6"
+overlay0 = "#959da5"
+overlay1 = "#6a737d"
+text = "#586069"
+subtext0 = "#6a737d"
+accent = "#0366d6"
+mauve = "#5a32a3"
+green = "#28a745"
+yellow = "#dbab09"
+red = "#d73a49"
+blue = "#0366d6"
+teal = "#1b7c83"
+peach = "#cb2431"
 
 [keys]
 prefix = "ctrl+a"
