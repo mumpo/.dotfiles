@@ -1,0 +1,9 @@
+viewer = "tui"
+auto_open = true
+
+[tui]
+theme = "auto"
+light_theme = "github-light"
+dark_theme = "github-dark"
+diff_mode = "auto"
+launch = "herdr-tab"
