@@ -14,3 +14,32 @@ herdr/.config/herdr/session-snapshots/
 herdr/.config/herdr/.plugins.lock
 herdr/.config/herdr/plugins.json
 herdr/.config/herdr/plugins/github-installations/
+
+# herdr-app runtime state and files rewritten by the app
+herdr-app/.config/herdr-app/*.sock
+herdr-app/.config/herdr-app/view.json
+herdr-app/.config/herdr-app/window.json
+herdr-app/.config/herdr-app/windows.json
+herdr-app/.config/herdr-app/shared.json
+herdr-app/.config/herdr-app/seen.json
+herdr-app/.config/herdr-app/installed.json
+herdr-app/.config/herdr-app/update-notes.json
+herdr-app/.config/herdr-app/update-notes-media/
+herdr-app/.config/herdr-app/data/
+herdr-app/.config/herdr-app/telemetry/
+herdr-app/.config/herdr-app/frame/
+herdr-app/.config/herdr-app/icons/
+herdr-app/.config/herdr-app/AGENTS.md
+herdr-app/.config/herdr-app/*.d.ts
+herdr-app/.config/herdr-app/*.corrupt-*
+herdr-app/.config/herdr-app/*.reset-*
+# shipped mods/layouts/themes: un-ignore your own with a `!` rule
+herdr-app/.config/herdr-app/mods/*
+herdr-app/.config/herdr-app/layouts/*
+herdr-app/.config/herdr-app/themes/
+!herdr-app/.config/herdr-app/themes/
+herdr-app/.config/herdr-app/themes/*
+!herdr-app/.config/herdr-app/themes/github-*.json
+!herdr-app/.config/herdr-app/mods/spaces-nums/
+!herdr-app/.config/herdr-app/layouts/main-nums.json
+!herdr-app/.config/herdr-app/mods/project-picker/
