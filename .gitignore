@@ -48,6 +48,11 @@ herdr-app/.config/herdr-app/themes/*
 herdr-app/.config/herdr-app/mods/gitview/*
 !herdr-app/.config/herdr-app/mods/gitview/main.js
 !herdr-app/.config/herdr-app/mods/gitview/listview.js
+!herdr-app/.config/herdr-app/mods/gitview/chrome.js
+!herdr-app/.config/herdr-app/mods/gitview/keys.js
+!herdr-app/.config/herdr-app/mods/gitview/remote.js
+!herdr-app/.config/herdr-app/mods/gitview/remote.test.js
+!herdr-app/.config/herdr-app/mods/gitview/placement.js
 !herdr-app/.config/herdr-app/mods/gitview/icons/
 herdr-app/.config/herdr-app/mods/gitview/icons/*
 !herdr-app/.config/herdr-app/mods/gitview/icons/file-*.svg

@@ -9,7 +9,7 @@
 // the cursor; v or a drag selects; a writes a note on the selection (enter
 // saves, esc cancels); enter opens nvim at the cursor (on a fold: unfolds);
 // s/u/x stage, unstage, discard the file; J/K next/previous file of the
-// list; m Diff or Preview (markdown, images, SVGs: preview.js); p sends the
+// list; m Diff or Preview (markdown, images, SVGs: preview.js); Ctrl+N sends the
 // notes; esc clears. Commands: `gitview-diff.key:<key>`, `gitview-diff.note:<text>`,
 // `gitview-diff.drag:<line>:<line>`, `gitview-diff.close`.
 
@@ -54,7 +54,7 @@ const KEYS = [
   { caps: ["enter"], label: (v) => editorLabel(v.view?.root, v.view?.on), rank: 3, on: { enter: (v, cx) => v.enterKey(cx), e: (v, cx) => v.edit(null, cx) } },
   { caps: ["J", "K"], label: "next / previous file", rank: 7, on: { J: (v, cx) => v.nextFile(1, cx), K: (v, cx) => v.nextFile(-1, cx) } },
   { caps: ["x"], label: "discard", rank: 8, on: { x: (v, cx) => v.act("discard", cx) } },
-  { caps: ["p"], label: "send notes", rank: 9, on: { p: (v, cx) => v.send(cx) } },
+  { caps: ["ctrl-n"], label: "send notes", rank: 9, on: { "ctrl-n": (v, cx) => v.send(cx) } },
   { caps: ["r"], label: "reload", on: { r: (v, cx) => v.reload(cx) } },
   { caps: ["escape"], label: "clear the selection", on: { escape: (v) => { v.anchor = null; } } },
   { caps: ["?"], label: "all keys", on: { "?": (v) => toggleKeys("gitview: the diff pane", [{ title: "Diff pane", table: KEYS }], v) } },
@@ -474,7 +474,9 @@ export default class GitDiff extends View {
   // ---- keys -----------------------------------------------------------------
 
   key(e, cx) {
-    const k = keyName(e);
+    const m = e.modifiers ?? {};
+    const controlNotes = m.control && !m.platform && !m.alt && !m.shift && e.key.toLowerCase() === "n";
+    const k = controlNotes ? "ctrl-n" : keyName(e);
     if (!k) return false;
     if (this.pendingNote) {
       if (k !== "escape") return false; // the composer types

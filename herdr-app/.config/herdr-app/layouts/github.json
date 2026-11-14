@@ -107,19 +107,18 @@
                   },
                   "background": "background",
                   "border": {
-                    "width": 0,
+                    "width": 1,
                     "color": "border"
                   },
                   "focus": {
-                    "width": 0,
-                    "color": "border"
+                    "width": 1,
+                    "color": "accent"
                   },
-                  "radius": 0,
-                  "gap": 1,
+                  "radius": 10,
+                  "gap": 8,
                   "lone": true
                 }
-              },
-              "background": "border"
+              }
             },
             {
               "id": "panel",
@@ -174,12 +173,8 @@
               "hidden": true
             }
           ],
-          "padding": 0,
-          "gap": 0,
-          "divider": {
-            "width": 1,
-            "color": "border"
-          }
+          "padding": 8,
+          "gap": 8
         },
         {
           "id": "status",

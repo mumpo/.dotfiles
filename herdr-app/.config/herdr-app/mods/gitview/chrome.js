@@ -124,7 +124,7 @@ export function subHeader(t, h) {
     .children(lineCounts(t, h.add, h.del))
     .when(Boolean(h.pill), (e) => e.child(pill(t, h.pill, { id: "gitview-sub-pill", onPress: h.onPill })))
     .child(spinner(t, h.loading))
-    .when(Boolean(h.onSend), (e) => e.child(iconButton(t, "gitview-send", "send", "Send to an agent (p)", h.onSend)));
+    .when(Boolean(h.onSend), (e) => e.child(iconButton(t, "gitview-send", "send", "Send to an agent (Ctrl+N)", h.onSend)));
 }
 
 // Diff | Preview, the shown one raised; `onPick(preview, cx)`; `compact`:
