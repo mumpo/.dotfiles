@@ -41,7 +41,26 @@ herdr-app/.config/herdr-app/themes/
 herdr-app/.config/herdr-app/themes/*
 !herdr-app/.config/herdr-app/themes/github-*.json
 !herdr-app/.config/herdr-app/mods/spaces-nums/
-!herdr-app/.config/herdr-app/layouts/main-nums.json
+!herdr-app/.config/herdr-app/mods/github-agents/
+!herdr-app/.config/herdr-app/mods/github-files/
+# Local overrides for the installed gitview plugin.
+!herdr-app/.config/herdr-app/mods/gitview/
+herdr-app/.config/herdr-app/mods/gitview/*
+!herdr-app/.config/herdr-app/mods/gitview/main.js
+!herdr-app/.config/herdr-app/mods/gitview/listview.js
+!herdr-app/.config/herdr-app/mods/gitview/icons/
+herdr-app/.config/herdr-app/mods/gitview/icons/*
+!herdr-app/.config/herdr-app/mods/gitview/icons/file-*.svg
+!herdr-app/.config/herdr-app/mods/gitview/icons/alert.svg
+!herdr-app/.config/herdr-app/mods/gitview-diff/
+herdr-app/.config/herdr-app/mods/gitview-diff/*
+!herdr-app/.config/herdr-app/mods/gitview-diff/main.js
+!herdr-app/.config/herdr-app/mods/gitview-diff/diffview.js
+!herdr-app/.config/herdr-app/mods/gitview-diff/github-theme.js
+!herdr-app/.config/herdr-app/mods/gitview-diff/github-theme.test.js
+!herdr-app/.config/herdr-app/mods/gitview-diff/scroller.js
+!herdr-app/.config/herdr-app/mods/github-pane/
+!herdr-app/.config/herdr-app/layouts/github.json
 !herdr-app/.config/herdr-app/mods/project-picker/
 !herdr-app/.config/herdr-app/mods/prs/
 !herdr-app/.config/herdr-app/mods/markdown/

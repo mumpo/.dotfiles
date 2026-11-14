@@ -1,5 +1,6 @@
 {
   "id": "root",
+  "ui_font": "Inter",
   "cloned_from": {
     "name": "main",
     "version": "0.1.15"
@@ -40,7 +41,7 @@
               "id": "agents",
               "type": "block",
               "content": {
-                "mod": "agents"
+                "mod": "github-agents"
               },
               "size": {
                 "weight": 1
@@ -98,7 +99,7 @@
                 "pane": {
                   "header": {
                     "content": {
-                      "mod": "pane"
+                      "mod": "github-pane"
                     },
                     "reveal": "always",
                     "height": 30,
@@ -106,18 +107,19 @@
                   },
                   "background": "background",
                   "border": {
-                    "width": 1,
+                    "width": 0,
                     "color": "border"
                   },
                   "focus": {
-                    "width": 1,
-                    "color": "accent"
+                    "width": 0,
+                    "color": "border"
                   },
-                  "radius": 10,
-                  "gap": 8,
+                  "radius": 0,
+                  "gap": 1,
                   "lone": true
                 }
-              }
+              },
+              "background": "border"
             },
             {
               "id": "panel",
@@ -131,7 +133,7 @@
                       "id": "files",
                       "type": "block",
                       "content": {
-                        "mod": "files"
+                        "mod": "github-files"
                       }
                     },
                     {
@@ -172,8 +174,12 @@
               "hidden": true
             }
           ],
-          "padding": 8,
-          "gap": 8
+          "padding": 0,
+          "gap": 0,
+          "divider": {
+            "width": 1,
+            "color": "border"
+          }
         },
         {
           "id": "status",
