@@ -25,34 +25,15 @@ skhd --start-service
 # Install tmux-sess for session and worktree management
 source tmux/.tmux/scripts/install_tmux_sess.sh
 
-# Fixing buildx in Apple Silicon
-# https://gist.github.com/Aeonitis/cbd9f8b61eaec5a8a024c0a42f415ca3
+# Install herdr app and herdr-core (not available through Homebrew)
+command -v hc >/dev/null 2>&1 || curl -fsSL https://releases.herdr.dev/core/install.sh | sh
+[ -d /Applications/Herdr.app ] || curl -fsSL https://releases.herdr.dev/app/install.sh | sh
 
-# Check if /usr/local/lib/docker directory exists, create it if it doesn't
-if [ ! -d "/usr/local/lib/docker" ]; then
-  echo "Directory /usr/local/lib/docker does not exist. Creating..."
-  mkdir -p /usr/local/lib/docker
-  echo "Created directory: /usr/local/lib/docker"
-else
-  echo "Directory /usr/local/lib/docker already exists."
-fi
+# Install herdr plugins
+sh herdr/.config/herdr/scripts/install-plugins.sh
 
-# Check for Docker CLI plugins directory under /usr/local/lib
-if [ -d "/usr/local/lib/docker/cli-plugins" ]; then
-  echo "Docker CLI plugins directory already exists: /usr/local/lib/docker/cli-plugins"
-else
-  # Create symlink to Docker CLI plugins directory under /Applications
-  echo "Docker CLI plugins directory does not exist. Creating symlink..."
-  ln -s /Applications/Docker.app/Contents/Resources/cli-plugins /usr/local/lib/docker/cli-plugins
-  echo "Symlink created: /usr/local/lib/docker/cli-plugins -> /Applications/Docker.app/Contents/Resources/cli-plugins"
-fi
-
-# Verify the symlink
-if [ -L "/usr/local/lib/docker/cli-plugins" ]; then
-  echo "Symlink verification: Successful"
-else
-  echo "Symlink verification: Failed"
-fi
+# Install herdr-gitview mods (git review panel; needs the Herdr app open)
+[ -d herdr-app/.config/herdr-app/mods/gitview ] || curl -fsSL https://raw.githubusercontent.com/ChmaraX/herdr-gitview/main/install.sh | sh -s -- --app
 
 echo "Configuring macos variables..."
 
