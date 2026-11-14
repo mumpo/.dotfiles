@@ -57,7 +57,17 @@
     "ctrl-7": "space.select:7",
     "ctrl-8": "space.select:8",
     "ctrl-9": "space.select:9",
-    "cmd-o": "mod.open:project-picker"
+    "cmd-o": "mod.open:project-picker",
+    "cmd-x": "pane.close",
+    "cmd-shift-x": "space.close",
+    "cmd-shift-r": "mod.open:prs",
+    "cmd-shift-g": "mod.open:gitview-sidebar",
+    "cmd-g": "mod.open:gitview-tab",
+    "cmd-e": {"command": "tab.new", "args": {"name": "nvim", "argv": ["nvim"]}},
+    "ctrl-h": "pane-nav.left",
+    "ctrl-j": "pane-nav.down",
+    "ctrl-k": "pane-nav.up",
+    "ctrl-l": "pane-nav.right"
   },
   "terminal": {
     "cmd-f": "terminal.search",

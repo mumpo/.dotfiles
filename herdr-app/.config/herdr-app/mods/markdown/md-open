@@ -1,0 +1,28 @@
+#!/bin/sh
+# Show a Markdown file in Herdr's Markdown panel.
+#   md-open <file.md>           open that file where it is (no copy)
+#   md-open - [name]            read Markdown from stdin, write it to
+#                               /tmp/herdr-plans/<name>.md (default: a timestamp), open it
+set -eu
+
+home=${HERDR_APP_HOME:-$HOME/.config/herdr-app}
+plans=/tmp/herdr-plans
+inbox=$home/data/markdown-open
+app=$(command -v herdr-app || echo "$HOME/.local/bin/herdr-app")
+
+[ $# -ge 1 ] || { sed -n '2,5p' "$0" >&2; exit 2; }
+mkdir -p "$plans" "$inbox"
+
+if [ "$1" = "-" ]; then
+  name=$(printf '%s' "${2:-$(date +%Y%m%d-%H%M%S)}" | tr -c 'A-Za-z0-9._-' '-')
+  file=$plans/${name%.md}.md
+  cat > "$file"
+else
+  [ -f "$1" ] || { echo "md-open: no such file: $1" >&2; exit 1; }
+  file=$(cd "$(dirname "$1")" && pwd)/$(basename "$1")
+fi
+
+printf '%s\n' "$file" > "$inbox/$(date +%s)-$$.path"
+"$app" do layout.select --stack panel-body --child markdown >/dev/null
+"$app" do layout.show --id panel >/dev/null
+echo "$file"

@@ -43,3 +43,7 @@ herdr-app/.config/herdr-app/themes/*
 !herdr-app/.config/herdr-app/mods/spaces-nums/
 !herdr-app/.config/herdr-app/layouts/main-nums.json
 !herdr-app/.config/herdr-app/mods/project-picker/
+!herdr-app/.config/herdr-app/mods/prs/
+!herdr-app/.config/herdr-app/mods/markdown/
+!herdr-app/.config/herdr-app/mods/tabs-nums/
+!herdr-app/.config/herdr-app/mods/pane-nav/

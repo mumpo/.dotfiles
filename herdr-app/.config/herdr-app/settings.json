@@ -3,11 +3,11 @@
   "sounds": {
     "enabled": true
   },
+  "font": "FiraCode Nerd Font Mono Light",
   "font_ligatures": false,
   "minimum_contrast": 1.0,
   "theme": {
     "light": "github-light",
     "dark": "github-dark"
-  },
-  "font": "FiraCode Nerd Font Mono Light"
+  }
 }

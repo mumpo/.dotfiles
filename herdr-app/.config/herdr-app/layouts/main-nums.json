@@ -79,7 +79,7 @@
           "id": "tabs",
           "type": "block",
           "content": {
-            "mod": "tabs"
+            "mod": "tabs-nums"
           },
           "size": {
             "px": 42
@@ -138,7 +138,26 @@
                       "id": "changes",
                       "type": "block",
                       "content": {
-                        "mod": "changes"
+                        "mod": "gitview",
+                        "props": {
+                          "replaces": {
+                            "mod": "changes"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "prs",
+                      "type": "block",
+                      "content": {
+                        "mod": "prs"
+                      }
+                    },
+                    {
+                      "id": "markdown",
+                      "type": "block",
+                      "content": {
+                        "mod": "markdown"
                       }
                     }
                   ],
@@ -164,6 +183,16 @@
           },
           "size": {
             "px": 28
+          }
+        },
+        {
+          "id": "pane-nav",
+          "type": "block",
+          "size": {
+            "px": 0
+          },
+          "content": {
+            "mod": "pane-nav"
           }
         }
       ],

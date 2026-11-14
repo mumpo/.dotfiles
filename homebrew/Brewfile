@@ -85,6 +85,7 @@ tap "cormacrelf/tap"
 brew "cormacrelf/tap/dark-notify"
 
 cask "font-fira-code-nerd-font"
+cask "font-inter"
 cask "ghostty"
 cask "gimp"
 cask "kitty"
