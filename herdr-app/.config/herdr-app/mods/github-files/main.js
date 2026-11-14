@@ -1,6 +1,8 @@
+import { footer, keyName, showKeys } from "./navigation.js";
+import { PanelFocus } from "./panel-focus.js";
 // A lazy file browser for the focused pane's folder, with bounded read-only previews.
 import { View, div, svg } from "gpui-kit";
-import { v_flex, h_flex, Editor, EditorState } from "gpui-base";
+import { v_flex, h_flex, Editor, EditorState, ScrollHandle } from "gpui-base";
 import { spaces, panes, focused, exec, readTextFile, watchFolder, theme, settings, window } from "herdr";
 
 function location() {
@@ -40,6 +42,11 @@ async function directory(path, on) {
 
 export default class Files extends View {
   init(_props, cx) {
+    this.panelFocus = new PanelFocus(cx, (command, cx) => {
+      if (command.startsWith("key:")) this.key({ key: command.slice(4) }, cx);
+    });
+    this.scroll = ScrollHandle.new();
+    this.selected = null;
     this.saved = new Map();
     this.entries = new Map(); this.folders = new Set(); this.pending = new Set(); this.marks = {};
     this.refresh(cx);
@@ -128,6 +135,7 @@ export default class Files extends View {
   }
 
   show(path, cx) {
+    this.panelFocus.childFocused = false;
     this.code?.release(); this.code = null; this.file = path; this.fileError = null;
     if (!path || !cx) return;
     const context = this.context, root = this.root, on = this.on;
@@ -142,38 +150,87 @@ export default class Files extends View {
           value: text.length > 400000 ? text.slice(0, 400000) + "\n… (file truncated)" : text,
           font_family: settings().font_family, font_size: 12,
           syntax: { keyword: t.ansi5, string: t.ansi2, comment: t.dim, function: t.ansi4, type: t.ansi3, number: t.ansi1, constant: t.ansi6 } });
+        this.code.on("focus", (_event, cx) => {
+          this.panelFocus.childFocused = true;
+          this.panelFocus.request(cx);
+          cx.notify();
+        });
+        this.code.on("blur", (_event, cx) => { this.panelFocus.childFocused = false; cx.notify(); });
       } catch { if (this.file === path && this.current(context)) this.fileError = "Cannot preview this file (binary, too large, or unreadable)"; }
       finally { cx.notify(); }
     });
   }
 
-  rows(prefix, depth, out, t) {
+  visibleRows(prefix = "", depth = 0, out = []) {
     if (out.length >= TOTAL || depth > 40) return out;
     for (const entry of this.entries.get(prefix) ?? []) {
       if (out.length >= TOTAL) break;
-      const path = prefix ? `${prefix}/${entry.name}` : entry.name, open = this.folders.has(path), mark = this.marks[`${this.root}/${path}`];
-      out.push(h_flex().id(`file-${path}`).h(28).flex_none().pl(8 + depth * 18).pr(8).gap(7).items_center().rounded(7).cursor_pointer().hover(s => s.bg(t.hover))
-        .on_click((_e, cx) => entry.dir ? this.toggle(path, cx) : this.show(path, cx))
+      const path = prefix ? `${prefix}/${entry.name}` : entry.name;
+      out.push({ ...entry, path, depth, open: this.folders.has(path) });
+      if (entry.dir && this.folders.has(path)) this.visibleRows(path, depth + 1, out);
+    }
+    return out;
+  }
+
+  selectRow(row, index) {
+    this.selected = row.path;
+    this.scroll.scroll_to_item(index);
+  }
+
+  key(e, cx) {
+    const key = keyName(e);
+    if (key === "?") showKeys("Files", Boolean(this.file));
+    else if (this.file) {
+      if (key !== "escape") return false;
+      this.show(null);
+      this.panelFocus.handle.focus();
+      const index = this.visibleRows().findIndex(row => row.path === this.selected);
+      if (index >= 0) this.scroll.scroll_to_item(index);
+    } else if (key === "escape") this.panelFocus.dismiss();
+    else {
+      const rows = this.visibleRows();
+      const index = Math.max(0, rows.findIndex(row => row.path === this.selected));
+      if (["j", "down", "k", "up"].includes(key)) {
+        const next = Math.max(0, Math.min(rows.length - 1, index + (["j", "down"].includes(key) ? 1 : -1)));
+        if (rows[next]) this.selectRow(rows[next], next);
+      } else if (key === "enter") {
+        const row = rows[index];
+        if (row) { this.selectRow(row, index); row.dir ? this.toggle(row.path, cx) : this.show(row.path, cx); }
+      } else return false;
+    }
+    cx.stop_propagation?.();
+    cx.notify();
+    return true;
+  }
+
+  rows(t) {
+    const rows = this.visibleRows();
+    if (!rows.some(row => row.path === this.selected)) this.selected = rows[0]?.path ?? null;
+    return rows.map((entry, index) => {
+      const { path, depth, open } = entry, mark = this.marks[`${this.root}/${path}`];
+      return h_flex().id(`file-${path}`).h(28).flex_none().pl(8 + depth * 18).pr(8).gap(7).items_center().rounded(7).cursor_pointer()
+        .bg(this.selected === path ? t.selected : t.background).hover(s => s.bg(t.hover))
+        .on_click((_e, cx) => { this.selectRow(entry, index); entry.dir ? this.toggle(path, cx) : this.show(path, cx); })
         .child(entry.dir ? svg(`mods/github-files/chevron-${open ? "down" : "right"}.svg`).size(12).flex_none().text_color(t.dim) : div().w(12).flex_none())
         .child(svg(`mods/github-files/${entry.dir ? (open ? "folder-open" : "folder") : "file"}.svg`).size(entry.dir ? 16 : 14).flex_none().text_color(entry.dir ? (settings().dark ? "#4493f8" : "#54aeff") : t.muted))
         .child(div().flex_1().min_w(0).truncate().child(entry.name))
-        .when(Boolean(mark), el => el.child(div().text_size(11).text_color(mark === "A" ? t.ansi2 : mark === "D" || mark === "U" ? t.ansi1 : t.blocked).child(mark))));
-      if (entry.dir && open) this.rows(path, depth + 1, out, t);
-    }
-    return out;
+        .when(Boolean(mark), el => el.child(div().text_size(11).text_color(mark === "A" ? t.ansi2 : mark === "D" || mark === "U" ? t.ansi1 : t.blocked).child(mark)));
+    });
   }
 
   render(cx) {
     if (key() !== this.context?.key) this.refresh(cx);
     const t = theme();
-    return v_flex().id("files").size_full().min_h(0).rounded(10).overflow_hidden().bg(t.background).border_1().border_color(t.border).text_color(t.foreground).text_size(13)
+    return this.panelFocus.frame(v_flex().id("files").size_full().min_h(0).bg(t.background).text_color(t.foreground).text_size(13), t)
+      .on_key_down((e, cx) => this.key(e, cx))
       .child(h_flex().h(42).flex_none().px(14).gap(8).items_center().border_b(1).border_color(t.border)
         .when(Boolean(this.file), el => el.child(div().id("files-back").w(20).cursor_pointer().text_color(t.muted).on_click((_e, cx) => { this.show(null); cx.notify(); }).child("←")))
         .child(div().font_semibold().child("Files"))
         .child(div().flex_1().min_w(0).truncate().text_right().text_size(12).text_color(t.dim).child(this.file ?? this.root?.split(/[\\/]/).pop() ?? "")))
-      .when(!this.file, el => el.child(v_flex().id("files-tree").flex_1().min_h(0).overflow_y_scrollbar().p(6).children(this.rows("", 0, [], t))
+      .when(!this.file, el => el.child(v_flex().id("files-tree").flex_1().min_h(0).overflow_y_scrollbar().track_scroll(this.scroll).p(6).children(this.rows(t))
         .when(Boolean(this.error) || !this.entries.get("")?.length, el => el.child(div().p(8).text_size(12).text_color(t.dim).child(this.error || (this.loading ? "Loading files…" : this.root ? "No files" : "No folder"))))
         .when(this.limited, el => el.child(div().p(8).text_size(11).text_color(t.dim).child("File list limited to 500 entries per folder and 5,000 total")))))
-      .when(Boolean(this.file), el => el.child(this.code ? Editor.new(this.code).flex_1().min_h(0) : div().p(12).text_color(t.dim).child(this.fileError || "Loading file…")));
+      .when(Boolean(this.file), el => el.child(this.code ? Editor.new(this.code).flex_1().min_h(0) : div().p(12).text_color(t.dim).child(this.fileError || "Loading file…")))
+      .child(footer(t, "Files", Boolean(this.file)));
   }
 }

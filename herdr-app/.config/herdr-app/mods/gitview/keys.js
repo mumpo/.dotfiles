@@ -4,6 +4,9 @@
 // (from the app) and the confirm dialog's reply (`discard:<token>`) are
 // commands only. Commands reach every gitview list on screen.
 
+import { focused } from "herdr";
+import { run } from "./telemetry.js";
+import { panelState } from "./layout.js";
 import { keyEvent, keyName } from "./modkit.js";
 import { MODES } from "./modes.js";
 import { actionFor, chipsOf, toggleKeys } from "./keymap.js";
@@ -19,7 +22,19 @@ const EVERYWHERE = [
   { caps: ["?"], label: "all keys", on: { "?": (v) => showKeys(v) } },
 ];
 
-const tables = (view) => [MODES[view.mode].keys, EVERYWHERE];
+// Mode-specific Escape actions (history, commit files, notes) take priority.
+const SIDEBAR = [
+  { caps: ["escape"], label: "close sidebar", when: v => v.mode === "files", on: { escape: () => {
+    const panel = panelState();
+    if (!panel?.shown) return;
+    const pane = focused()?.pane;
+    if (pane) run("pane.focus", { pane });
+    else run("pane.go", { direction: "left" });
+    run("layout.hide", { id: panel.panel });
+  } } },
+];
+
+const tables = (view) => [MODES[view.mode].keys, EVERYWHERE, ...(view.cycle ? [SIDEBAR] : [])];
 
 // Returns false for keys it leaves to the app.
 export function handleKey(view, e, cx) {
@@ -36,7 +51,7 @@ export const chipsFor = (view) => chipsOf(tables(view), view);
 // Every key of the list, the shown view's first.
 export function showKeys(view) {
   const order = [view.mode, ...Object.keys(MODES).filter((m) => m !== view.mode)];
-  toggleKeys("gitview: the file list", [...order.map((m) => ({ title: MODES[m].title, table: MODES[m].keys })), { title: "Everywhere", table: EVERYWHERE }], view);
+  toggleKeys("gitview: the file list", [...order.map((m) => ({ title: MODES[m].title, table: MODES[m].keys })), { title: "Everywhere", table: EVERYWHERE }, ...(view.cycle ? [{ title: "Sidebar", table: SIDEBAR }] : [])], view);
 }
 
 export function runCommand(view, command, cx) {

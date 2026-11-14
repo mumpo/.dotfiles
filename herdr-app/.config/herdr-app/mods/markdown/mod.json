@@ -1,1 +1,5 @@
-{ "place": "none", "title": "Markdown" }
+{
+  "place": "none",
+  "title": "Markdown",
+  "focusable": true
+}

@@ -1,11 +1,13 @@
+import { footer, keyName, showKeys } from "./navigation.js";
+import { PanelFocus } from "./panel-focus.js";
 // A read-only Markdown viewer for the side panel: the Markdown files of the
 // focused pane's folder (git's, else found 3 deep), one click to read it
 // formatted, following the file while an agent writes it. A pane on another
 // machine lists and reads that machine's files. Links: http(s) and mailto open
 // in the browser, a link to another .md opens here.
 import { View, div, svg } from "gpui-kit";
-import { v_flex, h_flex, TextView } from "gpui-base";
-import { spaces, panes, focused, exec, readTextFile, watchFolder, appHome, home, theme } from "herdr";
+import { v_flex, h_flex, TextView, ScrollHandle } from "gpui-base";
+import { spaces, panes, focused, exec, readTextFile, watchFolder, appHome, home, theme, settings } from "herdr";
 
 function location() {
   const space = spaces().find(s => s.active), f = focused();
@@ -87,6 +89,11 @@ export default class Markdown extends View {
   // Each space has its own context: its folder's list, the file it shows, the
   // folders it collapsed. The open file is remembered across restarts.
   init(_props, cx) {
+    this.panelFocus = new PanelFocus(cx, (command, cx) => {
+      if (command.startsWith("key:")) this.key({ key: command.slice(4) }, cx);
+    });
+    this.scroll = ScrollHandle.new();
+    this.selected = null;
     this.saved = new Map();
     this.remembered = JSON.parse(localStorage.getItem("files") ?? "{}");
     this.sid = undefined;
@@ -189,7 +196,7 @@ export default class Markdown extends View {
     });
   }
 
-  back(cx) { this.file = null; this.remember(); this.loc = location(); this.list(cx); }
+  back(cx) { this.revealSelection = true; this.file = null; this.remember(); this.loc = location(); this.list(cx); }
 
   link(url, cx) {
     const f = this.file;
@@ -227,17 +234,56 @@ export default class Markdown extends View {
     return out;
   }
 
+  rowKey(row) { return row.dir ? row.key : row.file.path; }
+
+  selectRow(row, index) {
+    this.selected = this.rowKey(row);
+    this.scroll.scroll_to_item(index);
+  }
+
+  activate(row, cx) {
+    if (row.dir) {
+      this.collapsed.has(row.key) ? this.collapsed.delete(row.key) : this.collapsed.add(row.key);
+    } else this.open(row.file.path, this.loc.on, cx);
+    cx.notify();
+  }
+
+  key(e, cx) {
+    const key = keyName(e);
+    if (key === "?") showKeys("Markdown", Boolean(this.file));
+    else if (this.file) {
+      if (key !== "escape") return false;
+      this.back(cx);
+      this.panelFocus.handle.focus();
+    } else if (key === "escape") this.panelFocus.dismiss();
+    else {
+      const rows = tree(this.files ?? [], this.collapsed);
+      const index = Math.max(0, rows.findIndex(row => this.rowKey(row) === this.selected));
+      if (["j", "down", "k", "up"].includes(key)) {
+        const next = Math.max(0, Math.min(rows.length - 1, index + (["j", "down"].includes(key) ? 1 : -1)));
+        if (rows[next]) this.selectRow(rows[next], next);
+      } else if (key === "enter") {
+        const row = rows[index];
+        if (row) { this.selectRow(row, index); this.activate(row, cx); }
+      } else return false;
+    }
+    cx.stop_propagation?.();
+    cx.notify();
+    return true;
+  }
+
   render(cx) {
     this.swap();
     const t = theme();
     const f = this.file;
     const iconButton = (id, label, onClick) => div().id(id).px(7).py(2).rounded(5).text_size(12).text_color(t.dim).cursor_pointer()
       .hover((s) => s.bg(t.hover).text_color(t.foreground)).on_click(onClick).child(label);
-    const header = h_flex().h(42).flex_none().px(10).gap(6).items_center().border_b(1).border_color(t.border)
-      .when(Boolean(f), (e) => e.child(iconButton("md-back", "‹", (_e, cx) => this.back(cx))))
-      .child(v_flex().flex_1().min_w(0)
-        .child(div().text_size(13).font_semibold().truncate().child(f ? basename(f.path) : "Markdown"))
-        .child(div().text_size(11).text_color(t.dim).truncate().child(this.pretty(f ? dirname(f.path) : this.loc.cwd ?? "", f ? f.on : this.loc.on))))
+    const header = h_flex().h(42).flex_none().px(14).gap(8).items_center().border_b(1).border_color(t.border)
+      .when(Boolean(f), el => el.child(div().id("md-back").w(20).cursor_pointer().text_color(t.muted)
+        .on_click((_e, cx) => this.back(cx)).child("←")))
+      .child(div().font_semibold().child("Markdown"))
+      .child(div().flex_1().min_w(0).truncate().text_right().text_size(12).text_color(t.dim)
+        .child(f ? basename(f.path) : this.loc.cwd?.split(/[\\/]/).pop() ?? ""))
       .child(iconButton("md-reload", "↻", (_e, cx) => (f ? this.read(cx, false) : this.list(cx))));
 
     let body;
@@ -246,27 +292,33 @@ export default class Markdown extends View {
         ? div().p(16).text_size(12).text_color(this.error ? t.ansi1 : t.dim).child(this.error ?? "Reading…")
         : f.missing
           ? div().p(16).text_size(12).text_color(t.ansi1).child("The file is gone.")
-          : v_flex().id("md-doc").flex_1().min_h(0).overflow_y_scroll().px(16).py(12).text_size(14).font_family("Inter Variable").text_color(t.foreground)
+          : v_flex().id("md-doc").flex_1().min_h(0).overflow_y_scroll().px(16).py(12).text_size(13).text_color(t.foreground)
             .children(this.document(f, t, cx));
     } else if (this.files === null) {
       body = div().p(16).text_size(12).text_color(t.dim).child("Looking for Markdown…");
     } else if (this.files.length === 0) {
       body = div().p(16).text_size(12).text_color(this.error ? t.ansi1 : t.dim).child(this.error ?? "No Markdown files in this folder.");
     } else {
-      body = v_flex().id("md-list").flex_1().min_h(0).overflow_y_scroll().py(4).children(tree(this.files, this.collapsed).map((r, i) => {
-        const row = h_flex().id(`md-row-${i}`).h(26).flex_none().pr(12).pl(10 + r.depth * 14).gap(6).items_center().cursor_pointer().hover((s) => s.bg(t.hover));
+      const rows = tree(this.files, this.collapsed);
+      if (!rows.some(row => this.rowKey(row) === this.selected)) this.selected = rows[0] ? this.rowKey(rows[0]) : null;
+      if (this.revealSelection) {
+        this.scroll.scroll_to_item(Math.max(0, rows.findIndex(row => this.rowKey(row) === this.selected)));
+        this.revealSelection = false;
+      }
+      body = v_flex().id("md-list").flex_1().min_h(0).overflow_y_scrollbar().track_scroll(this.scroll).p(6).children(rows.map((r, i) => {
+        const row = h_flex().id(`md-row-${i}`).h(28).flex_none().pl(8 + r.depth * 18).pr(8).gap(7).items_center().rounded(7).cursor_pointer().bg(this.selected === this.rowKey(r) ? t.selected : t.background).hover((s) => s.bg(t.hover));
         if (r.dir) {
-          return row.on_click((_e, cx) => { this.collapsed.has(r.key) ? this.collapsed.delete(r.key) : this.collapsed.add(r.key); cx.notify(); })
-            .child(svg(`mods/files/chevron-${r.open ? "down" : "right"}.svg`).size(11).flex_none().text_color(t.dim))
-            .child(svg("mods/files/folder.svg").size(14).flex_none().text_color(t.muted))
-            .child(div().text_size(13).min_w(0).truncate().text_color(t.muted).child(r.label));
+          return row.on_click((_e, cx) => { this.selectRow(r, i); this.activate(r, cx); })
+            .child(svg(`mods/markdown/chevron-${r.open ? "down" : "right"}.svg`).size(12).flex_none().text_color(t.dim))
+            .child(svg(`mods/markdown/${r.open ? "folder-open" : "folder"}.svg`).size(16).flex_none().text_color(settings().dark ? "#4493f8" : "#54aeff"))
+            .child(div().flex_1().min_w(0).truncate().child(r.label));
         }
-        return row.on_click((_e, cx) => this.open(r.file.path, this.loc.on, cx))
-          .child(div().w(11).flex_none())
-          .child(svg("mods/files/file.svg").size(14).flex_none().text_color(t.dim))
-          .child(div().text_size(13).min_w(0).truncate().child(r.file.name));
+        return row.on_click((_e, cx) => { this.selectRow(r, i); this.activate(r, cx); })
+          .child(div().w(12).flex_none())
+          .child(svg("mods/markdown/file.svg").size(14).flex_none().text_color(t.muted))
+          .child(div().flex_1().min_w(0).truncate().child(r.file.name));
       }));
     }
-    return v_flex().size_full().min_w(0).bg(t.surface).text_color(t.foreground).child(header).child(body);
+    return this.panelFocus.frame(v_flex().size_full().min_w(0).min_h(0).bg(t.background).text_color(t.foreground).text_size(13), t).on_key_down((e, cx) => this.key(e, cx)).child(header).child(v_flex().flex_1().min_h(0).child(body)).child(footer(t, "Markdown", Boolean(f)));
   }
 }

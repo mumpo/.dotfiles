@@ -71,3 +71,9 @@ herdr-app/.config/herdr-app/mods/gitview-diff/*
 !herdr-app/.config/herdr-app/mods/markdown/
 !herdr-app/.config/herdr-app/mods/tabs-nums/
 !herdr-app/.config/herdr-app/mods/pane-nav/
+!herdr-app/.config/herdr-app/mods/workspace-palette/
+!herdr-app/.config/herdr-app/mods/github-status/
+herdr-app/.config/herdr-app/mods/workspace-palette/*.d.ts
+herdr-app/.config/herdr-app/mods/github-status/*.d.ts
+!herdr-app/.config/herdr-app/mods/sidebar-keys/
+herdr-app/.config/herdr-app/mods/sidebar-keys/*.d.ts

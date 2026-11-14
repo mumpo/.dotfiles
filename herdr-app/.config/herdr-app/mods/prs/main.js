@@ -1,3 +1,4 @@
+import { PanelFocus } from "./panel-focus.js";
 // Pull requests: my open pull requests (via the gh CLI). Open with the `mod.open:prs` command.
 import { View, div } from "gpui-kit";
 import { v_flex, h_flex } from "gpui-base";
@@ -16,6 +17,9 @@ function ago(iso) {
 
 export default class Prs extends View {
   init(_p, cx) {
+    this.panelFocus = new PanelFocus(cx, (command, cx) => {
+      if (command.startsWith("key:")) this.key({ key: command.slice(4) }, cx);
+    });
     this.prs = []; this.error = null; this.loading = false; this.fetched = null;
     this.refresh(cx);
     cx.timer.every(120000, (cx) => this.refresh(cx));
@@ -42,6 +46,15 @@ export default class Prs extends View {
     });
   }
 
+  key(e, cx) {
+    const m = e.modifiers ?? {};
+    if (e.key !== "escape" || m.platform || m.control || m.alt || m.shift) return false;
+    this.panelFocus.dismiss();
+    cx.stop_propagation?.();
+    cx.notify();
+    return true;
+  }
+
   render(cx) {
     const t = theme();
     const ciColor = { SUCCESS: t.ansi2, FAILURE: t.ansi1, ERROR: t.ansi1, PENDING: t.ansi3, EXPECTED: t.ansi3 };
@@ -60,7 +73,8 @@ export default class Prs extends View {
     });
     const status = this.error ? this.error : this.loading && !this.fetched ? "Loading…"
       : `${this.prs.length} open · ${this.fetched ? this.fetched.toLocaleTimeString() : ""}`;
-    return v_flex().size_full().bg(props()?.overlay ? t.popover : t.surface).text_color(t.foreground)
+    return this.panelFocus.frame(v_flex().size_full().min_h(0).bg(props()?.overlay ? t.popover : t.surface).text_color(t.foreground), t)
+      .on_key_down((e, cx) => this.key(e, cx))
       .child(h_flex().px(12).py(8).gap(8).items_center()
         .child(div().text_size(13).flex_1().child("Pull requests"))
         .child(div().text_size(11).text_color(this.error ? t.ansi1 : t.dim).child(status))

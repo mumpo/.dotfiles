@@ -1,0 +1,9 @@
+{
+  "place": "none",
+  "title": "Command palette",
+  "overlay": {
+    "kind": "dialog",
+    "width": 640,
+    "height": 430
+  }
+}

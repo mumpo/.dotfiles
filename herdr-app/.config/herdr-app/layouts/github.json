@@ -180,7 +180,7 @@
           "id": "status",
           "type": "block",
           "content": {
-            "mod": "workspace-status"
+            "mod": "github-status"
           },
           "size": {
             "px": 28
