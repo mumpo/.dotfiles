@@ -35,6 +35,9 @@ sh herdr/.config/herdr/scripts/install-plugins.sh
 # Install herdr-gitview mods (git review panel; needs the Herdr app open)
 [ -d herdr-app/.config/herdr-app/mods/gitview ] || curl -fsSL https://raw.githubusercontent.com/ChmaraX/herdr-gitview/main/install.sh | sh -s -- --app
 
+# The selected layout lives in shared.json (machine state, not versioned): select it
+herdr-app status >/dev/null 2>&1 && herdr-app do layout.switch --name main-nums
+
 echo "Configuring macos variables..."
 
 ./macos/macos.sh
