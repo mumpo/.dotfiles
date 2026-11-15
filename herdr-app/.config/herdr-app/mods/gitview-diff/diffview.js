@@ -115,13 +115,16 @@ export function renderRow(item, ctx) {
   const changed = row.k === "add" || row.k === "del";
   const atCursor = index === ctx.cursor;
   const cursor = atCursor && !changed ? cursorTint(t, ctx.focused) : null;
-  // The engine's solid change bar precedes the gutter. Use a normal sign
-  // after the line number, as in Guided Review, without altering source text.
+  // The engine reserves one gutter cell for its change bar. Keep that
+  // cell in the number column and reserve a sign column on every code row.
   const spans = [];
   for (const span of row.s) {
     if (changed && span[0] === "▌" && (span[1] === "red" || span[1] === "green")) continue;
-    spans.push(span);
-    if (changed && span[1] === "@gutter") spans.push([row.k === "add" ? "+ " : "− ", row.k === "add" ? "green" : "red", row.bg]);
+    spans.push(changed && span[1] === "@gutter" ? [` ${span[0]}`, span[1], span[2]] : span);
+    if (span[1] === "@gutter") {
+      if (changed) spans.push([row.k === "add" ? "+ " : "− ", row.k === "add" ? "green" : "red", row.bg]);
+      else if (row.k === "ctx") spans.push(["  ", null, null]);
+    }
   }
   const source = spans.map(([text]) => text).join("");
   const keys = /\.jsonc?$/i.test(ctx.path ?? "")
@@ -162,8 +165,13 @@ export function renderRow(item, ctx) {
         // translucent tint (darker boxes behind the text).
         const own = Boolean(bg) && !selected && bg !== row.bg;
         const behind = [selected ? t.selection : row.bg && color(row.bg, t), cursor, own && color(bg, t)].filter(Boolean);
-        const span = div().flex_none().child(text.replace(/ /g, "\u00a0"));
+        // At 13 px, FiraCode's monospace cell is 7.8 px. Center the number
+        // inside the full gutter instead of retaining the engine's right padding.
+        const span = fg === "@gutter"
+          ? div().flex_none().w(text.length * 7.8).h(ROW).flex().items_center().justify_center().child(text.trim())
+          : div().flex_none().child(text.replace(/ /g, "\u00a0"));
         return span.when(Boolean(fg), (e) => e.text_color(readable(foreground, behind, inkTheme)))
+          .when(fg !== "@gutter", (e) => e.font_normal())
           .when(own, (e) => e.bg(color(bg, t)))
           .when(atCursor && fg === "@gutter", (e) => e.font_semibold());
       }),

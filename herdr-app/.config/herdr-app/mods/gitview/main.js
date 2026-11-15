@@ -1,7 +1,7 @@
 // gitview for the Herdr app: the file list. It takes the place of the stock
 // Changes panel (the layout's `changes` slot; it follows the shown space),
 // and is the right half of cmd-g's gitview tab (props {cwd, on, space, tab,
-// own}); placement.js holds what differs. Clicking a file (or j/k onto it)
+// own}); placement.js holds what differs. Clicking a file (or pressing d)
 // shows its diff in the tab's diff pane (mod gitview-diff), full height
 // left of the panel, opened on first use; Enter opens nvim. The two talk
 // only through shared state (shared.js).
@@ -460,9 +460,7 @@ export default class GitList extends View {
     this.select(row, cx, { line: rec?.line ?? null, focusPane: true });
   }
 
-  // The panel just showed (cmd-shift-g, the Changes button), and the tab
-  // has no diff pane (hiding it closed them): from a fresh status, the
-  // selected file, else the first one, opens there, as the TUI's toggle did.
+  // Showing Changes refreshes the list; opening a diff is an explicit action.
   openOnShow(cx) {
     // A status for this place under a second old is fresh enough.
     const same = this.loadedKey === this.context().key;
@@ -473,17 +471,6 @@ export default class GitList extends View {
     // that can't any more goes.
     const rec = handoffIn(tab);
     if (rec && !this.restorable(tab, rec)) setHandoff(tab, null);
-    if (!tab || diffPane(tab) || (rec && this.restorable(tab, rec))) return;
-    // The list it kept while hidden: its file at once (the refresh corrects
-    // it if it moved meanwhile: followSelection).
-    const known = same && this.list()?.shownFile();
-    if (known) return this.select(known, cx);
-    cx.spawn(async (cx) => {
-      await this.loads.idle(cx);
-      const row = this.list()?.shownFile();
-      if (row && this.place.shown() && this.tab() === tab && !diffPane(tab)) this.select(row, cx);
-      cx.notify();
-    });
   }
 
   // `poll`: a timer's look; in branch scope the base found last time is
@@ -610,21 +597,21 @@ export default class GitList extends View {
   // ---- selecting ----------------------------------------------------------------
 
   // Select a row; a file shows in the diff pane (`open`: open the pane when
-  // the tab has none: a click or j/k, not a refresh; `line`: a note's).
+  // the tab has none: a click or d, not navigation; `line`: a note's).
   // `focusPane`: the diff pane gets the keyboard (coming back from nvim).
   // `browse`: the person moved there (not a load picking the first file):
   // the nvim Enter opened makes way (leaveEditor), and the row handed to
   // herdr-nvim brings its diff back.
-  select(row, cx, { open = true, line = null, focusPane = false, browse = true } = {}) {
+  select(row, cx, { open = true, line = null, focusPane = false, browse = true, preview = true } = {}) {
     const list = this.list();
     if (!list || !row) return;
-    if (browse && row.kind === "file") {
+    if (preview && browse && row.kind === "file") {
       if (this.handedOff(row)) return this.bringBack(row, cx);
       if (!this.leaveEditor(list.viewFor(row), cx)) open = false;
     }
     list.select(row);
     this.reveal(list.index(row), { margin: 28 });
-    if (row.kind === "file") this.show(row, { open, cx, line, focusPane });
+    if (preview && row.kind === "file") this.show(row, { open, cx, line, focusPane });
   }
 
   show(row, { open = false, cx, line = null, focusPane = false } = {}) {
@@ -692,11 +679,33 @@ export default class GitList extends View {
   }
 
   move(delta, cx) {
-    this.select(this.list()?.step(delta), cx);
+    this.select(this.list()?.step(delta), cx, { preview: false });
   }
 
   edge(last, cx) {
-    this.select(this.list()?.edge(last), cx);
+    this.select(this.list()?.edge(last), cx, { preview: false });
+  }
+
+  // d closes the selected file's diff, or explicitly opens the selection.
+  toggleDiff(cx) {
+    const tab = this.tab();
+    const pane = diffPane(tab);
+    const row = this.list()?.row();
+    const view = row?.kind === "file" ? this.list().viewFor(row) : null;
+    if (pane && (!view || sameFile(liveView(viewIn(tab)), view))) {
+      // focusList uses the live diff pane to reach Changes. Move focus
+      // before closing it so it never targets a pane that has just gone.
+      this.focusList(cx);
+      run("pane.close", { pane: pane.pane });
+      return;
+    }
+    if (!view) return;
+    this.select(row, cx, { focusPane: true });
+    if (pane) run("pane.focus", { pane: pane.pane });
+    else if (!this.place.opensDiffPane) {
+      const me = panes().find((p) => p.tab === tab && p.mod === "gitview");
+      if (me) run("pane.split", { pane: me.pane, direction: "left", mod: "gitview-diff", props: { tab } });
+    }
   }
 
   // Keep list item i in view (the list starts with 6 px of padding).
@@ -725,7 +734,7 @@ export default class GitList extends View {
     if (row.kind === "dir" && !(close && row.collapsed)) {
       if (close !== row.collapsed) list.toggleFold(row);
     } else if (close && list.tree) {
-      this.select(list.parent(row), cx);
+      this.select(list.parent(row), cx, { preview: false });
     }
   }
 

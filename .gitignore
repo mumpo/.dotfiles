@@ -50,6 +50,7 @@ herdr-app/.config/herdr-app/mods/gitview/*
 !herdr-app/.config/herdr-app/mods/gitview/listview.js
 !herdr-app/.config/herdr-app/mods/gitview/chrome.js
 !herdr-app/.config/herdr-app/mods/gitview/keys.js
+!herdr-app/.config/herdr-app/mods/gitview/modes.js
 !herdr-app/.config/herdr-app/mods/gitview/remote.js
 !herdr-app/.config/herdr-app/mods/gitview/remote.test.js
 !herdr-app/.config/herdr-app/mods/gitview/placement.js
@@ -60,6 +61,7 @@ herdr-app/.config/herdr-app/mods/gitview/icons/*
 !herdr-app/.config/herdr-app/mods/gitview-diff/
 herdr-app/.config/herdr-app/mods/gitview-diff/*
 !herdr-app/.config/herdr-app/mods/gitview-diff/main.js
+!herdr-app/.config/herdr-app/mods/gitview-diff/chrome.js
 !herdr-app/.config/herdr-app/mods/gitview-diff/diffview.js
 !herdr-app/.config/herdr-app/mods/gitview-diff/github-theme.js
 !herdr-app/.config/herdr-app/mods/gitview-diff/github-theme.test.js

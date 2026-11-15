@@ -103,7 +103,7 @@ for (const dark of [false, true]) {
         expect(result.children[0].bg).toEqual([p[`${role}Gutter`]]);
         expect(result.children[1].bg).toBeUndefined();
         expect(result.children[3].bg).toEqual([p[`${role}Word`]]);
-        expect(textOf(result)).toBe(` 12 ${kind === "add" ? "+" : "−"} const answer = 42;`);
+        expect(textOf(result)).toBe(`12${kind === "add" ? "+" : "−"} const answer = 42;`);
         const current = draw(row, dark, null, { cursor: 0, focused: true });
         expect(current.bg).toEqual([p[role]]);
         expect(current.children.length).toBe(result.children.length);

@@ -2,7 +2,9 @@ import { beforeEach, expect, mock, test } from "bun:test";
 
 const exec = mock(async () => ({ code: 0, stdout: "", stderr: "Already up to date." }));
 const notify = mock(() => {});
-mock.module("herdr", () => ({ exec, notify, closeOverlay() {}, openOverlay() {}, setShared() {}, shared() {} }));
+mock.module("herdr", () => ({ exec, notify, focused() {}, closeOverlay() {}, openOverlay() {}, setShared() {}, shared() {} }));
+mock.module("./telemetry.js", () => ({ run() {} }));
+mock.module("./layout.js", () => ({ panelState() { return null; } }));
 mock.module("./modes.js", () => ({ MODES: { files: { keys: [] } } }));
 mock.module("./modkit.js", () => ({
   keyName(e) {

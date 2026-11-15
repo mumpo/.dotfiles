@@ -57,6 +57,7 @@ const KEYS = [
   { caps: ["ctrl-n"], label: "send notes", rank: 9, on: { "ctrl-n": (v, cx) => v.send(cx) } },
   { caps: ["r"], label: "reload", on: { r: (v, cx) => v.reload(cx) } },
   { caps: ["escape"], label: "clear the selection", on: { escape: (v) => { v.anchor = null; } } },
+  { caps: ["d", "q"], label: "close diff", rank: 10, on: { d: (v) => v.closePane(), q: (v) => v.closePane() } },
   { caps: ["?"], label: "all keys", on: { "?": (v) => toggleKeys("gitview: the diff pane", [{ title: "Diff pane", table: KEYS }], v) } },
 ];
 const NOTE_KEYS = [{ caps: ["enter"], label: "save the note", rank: 1, on: {} }, { caps: ["escape"], label: "cancel", rank: 2, on: {} }];
@@ -424,7 +425,11 @@ export default class GitDiff extends View {
   // (Not `close`: the app calls that one when the pane goes.)
   closePane() {
     const pane = diffPane(this.tab());
-    if (pane) run("pane.close", { pane: pane.pane });
+    if (pane) {
+      run("pane.focus", { pane: pane.pane });
+      run("pane.go", { direction: "right" });
+      run("pane.close", { pane: pane.pane });
+    }
   }
 
   // ---- notes ----------------------------------------------------------------
@@ -666,7 +671,7 @@ export default class GitDiff extends View {
           .flex_col()
           .relative()
           .bg(githubTheme(isDark(t.background)).background)
-          .font_family(settings().font_family ?? "JetBrains Mono")
+          .font_family((settings().font_family ?? "JetBrains Mono").replace(/\s+Light$/, ""))
           .text_size(13)
           .child(this.scroll.view(t, (i) => diffs.renderRow(display[i], ctx), { contentWidth: this.diffWidth }))
           .when(Boolean(this.diff.error || this.diff.empty || this.diff.binary), (e) =>
