@@ -75,6 +75,8 @@ herdr-app/.config/herdr-app/mods/gitview-diff/*
 !herdr-app/.config/herdr-app/mods/pane-nav/
 !herdr-app/.config/herdr-app/mods/workspace-palette/
 !herdr-app/.config/herdr-app/mods/github-status/
+!herdr-app/.config/herdr-app/mods/branch-picker/
+herdr-app/.config/herdr-app/mods/branch-picker/*.d.ts
 herdr-app/.config/herdr-app/mods/workspace-palette/*.d.ts
 herdr-app/.config/herdr-app/mods/github-status/*.d.ts
 !herdr-app/.config/herdr-app/mods/sidebar-keys/

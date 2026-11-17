@@ -180,7 +180,7 @@
           "id": "status",
           "type": "block",
           "content": {
-            "mod": "github-status"
+            "mod": "branch-picker"
           },
           "size": {
             "px": 28
