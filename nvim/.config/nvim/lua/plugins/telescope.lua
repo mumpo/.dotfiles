@@ -51,6 +51,9 @@ return {
     -- I don't want to search in the `.git` directory.
     table.insert(vimgrep_arguments, "--glob")
     table.insert(vimgrep_arguments, "!**/.git/*")
+    -- I don't want to search in Claude's worktrees.
+    table.insert(vimgrep_arguments, "--glob")
+    table.insert(vimgrep_arguments, "!**/.claude/worktrees/*")
 
     telescope.setup {
       defaults = {
@@ -69,7 +72,7 @@ return {
       pickers = {
         find_files = {
           -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
-          find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+          find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*", "--glob", "!**/.claude/worktrees/*" },
         },
       },
       extensions = {
