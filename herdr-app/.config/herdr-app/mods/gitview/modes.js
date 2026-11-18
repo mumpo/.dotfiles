@@ -67,7 +67,12 @@ export const MODES = {
     }),
     body: (v, t, focused) => filesBody(v, t, focused, v.work),
     under: (v, t) => (v.scope === "worktree" && v.work
-      ? commitBox(t, v.commitInput, v.typing, v.work.status.sections.some((s) => s.id === "staged"), v.commitRunning(), (cx) => v.commit(cx), v.width < 320)
+      ? commitBox(t, v.commitInput, v.typing, v.commitChoice !== "all", v.commitRunning(), (cx) => v.commit(cx), v.width < 320, {
+        open: Boolean(v.commitMenu),
+        messageError: Boolean(v.commitMessageError),
+        onOpen: (open, cx) => { v.commitMenu = open; cx.notify(); },
+        onPick: (choice, cx) => { choice === "amend" ? v.amend(cx) : v.composeCommit(choice, cx); cx.notify(); },
+      })
       : null),
     keys: [
       { caps: ["j", "k"], label: "move", on: { j: down, down, k: up, up } },
@@ -76,7 +81,9 @@ export const MODES = {
       { caps: ["u"], label: "unstage", rank: 2, when: worktree, on: { u: (v, cx) => v.rowAction("unstage", null, cx) } },
       { caps: ["enter"], label: enterLabel, rank: 3, on: { enter: (v, cx) => v.enter(cx), e: (v, cx) => v.enter(cx) } },
       { caps: ["x"], label: "discard", rank: 4, when: worktree, on: { x: (v, cx) => v.rowAction("discard", null, cx) } },
-      { caps: ["c"], label: "commit", rank: 5, when: worktree, on: { c: (v) => worktree(v) && v.commitInput.focus() } },
+      { caps: ["c"], label: "commit staged", rank: 5, when: worktree, on: { c: (v, cx) => v.composeCommit("staged", cx) } },
+      { caps: ["C"], label: "commit all", when: worktree, on: { C: (v, cx) => v.composeCommit("all", cx) } },
+      { caps: ["A"], label: "amend", when: worktree, on: { A: (v, cx) => v.amend(cx) } },
       { caps: ["l"], label: "history", rank: 6, on: { l: (v, cx) => openLog(v, cx) } },
       { caps: ["t"], label: "tree", rank: 7, on: { t: (v, cx) => v.toggleTree(cx) } },
       { caps: ["n"], label: "notes", rank: 8, on: { n: back("notes") } },

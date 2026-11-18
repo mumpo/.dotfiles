@@ -53,6 +53,9 @@ herdr-app/.config/herdr-app/mods/gitview/*
 !herdr-app/.config/herdr-app/mods/gitview/modes.js
 !herdr-app/.config/herdr-app/mods/gitview/remote.js
 !herdr-app/.config/herdr-app/mods/gitview/remote.test.js
+!herdr-app/.config/herdr-app/mods/gitview/commits.js
+!herdr-app/.config/herdr-app/mods/gitview/amend-prompt.js
+!herdr-app/.config/herdr-app/mods/gitview/commits.test.js
 !herdr-app/.config/herdr-app/mods/gitview/placement.js
 !herdr-app/.config/herdr-app/mods/gitview/icons/
 herdr-app/.config/herdr-app/mods/gitview/icons/*

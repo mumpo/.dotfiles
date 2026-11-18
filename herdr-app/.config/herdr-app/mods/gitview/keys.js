@@ -12,6 +12,7 @@ import { MODES } from "./modes.js";
 import { actionFor, chipsOf, toggleKeys } from "./keymap.js";
 import { takeKeyboard } from "./modkit.js";
 import { notesKey, remoteOperation } from "./remote.js";
+import { takeAmend } from "./commits.js";
 
 // The keys every view has.
 const EVERYWHERE = [
@@ -57,6 +58,16 @@ export function showKeys(view) {
 export function runCommand(view, command, cx) {
   const [what, ...rest] = command.split(":");
   const arg = rest.join(":");
+  if (what === "amend") {
+    const pending = takeAmend(arg);
+    if (pending) {
+      view.commit(cx, { ...pending, choice: "amend" });
+      // A hook may run for the entire exec timeout. Recover a dropped reply
+      // after that timeout without allowing a second commit during the hook.
+      view.confirmClosing(31000);
+    }
+    return;
+  }
   // The app moved its focus here (pane.go, a popup over it closed).
   if (command === "focus") {
     view.viaApp = true;

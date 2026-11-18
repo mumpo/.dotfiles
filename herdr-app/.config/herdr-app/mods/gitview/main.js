@@ -13,7 +13,7 @@
 
 import { View } from "gpui-kit";
 import { v_flex, TextareaState } from "gpui-base";
-import { focused, notify, panes, props, shared, theme } from "herdr";
+import { focused, notify, openOverlay, panes, props, shared, theme } from "herdr";
 import { Tracer, event, run } from "./telemetry.js";
 import { endTerminal, gv, labelled, message, onArgs } from "./engine.js";
 import { diffArgs, isDark, sameFile, sameShown } from "./model.js";
@@ -29,6 +29,8 @@ import { History } from "./history.js";
 import { knowEditor, openNvim } from "./nvim.js";
 import { Scroller } from "./scroller.js";
 import { footer } from "./chrome.js";
+import { lastCommit, writeCommit } from "./commits.js";
+import { AmendPrompt } from "./amend-prompt.js";
 import { chipsFor, handleKey, runCommand, showKeys } from "./keys.js";
 import { MODES } from "./modes.js";
 
@@ -38,6 +40,7 @@ const EXEC_LIMIT_MS = 29000;
 
 export default class GitList extends View {
   init(_props, cx) {
+    if (props()?.amend) { this.amendPrompt = new AmendPrompt(props(), cx); return; }
     // Every new Changes panel starts as a tree, even after using the list.
     setTreeMode(true);
     this.tr = new Tracer("list", () => ({ tab: this.tab(), space: this.ctx?.space }), () => this.traceState());
@@ -50,7 +53,10 @@ export default class GitList extends View {
     // line high until the message has more (v1 wrote it in nvim).
     this.commitInput = TextareaState.new({ placeholder: "Commit message", rows: 1 });
     this.commitInput.set_auto_grow(1, 8);
-    this.commitInput.on("change", (_e, cx) => cx.notify());
+    this.commitInput.on("change", (_e, cx) => {
+      if (this.commitInput.value().trim()) this.commitMessageError = false;
+      cx.notify();
+    });
     this.commitInput.on("submit", (_e, cx) => this.commit(cx));
     this.commitInput.on("focus", (_e, cx) => {
       this.typing = true;
@@ -526,6 +532,7 @@ export default class GitList extends View {
       const same = old && old.where.root === where.root && old.where.on === where.on && old.status.scope === status.scope;
       if (same) old.update(status, where);
       else {
+        this.commitChoice = null; this.commitMenu = false; this.commitMessageError = false;
         this.work = new FileList(status, where);
         this.work.rebuild(treeMode());
         this.commitFiles = null;
@@ -795,9 +802,9 @@ export default class GitList extends View {
   // still running 1.5 s on is taken as lost (Loads.revive), and the repo
   // shown as it is (onLost). From the 300 ms timer, not a task's sleep: a
   // sleep resumed after that drop was seen never to come back.
-  confirmClosing() {
+  confirmClosing(delay = 1500) {
     const at = Date.now();
-    this.reviveAt = { due: at + 1500, before: at + 1000 };
+    this.reviveAt = { due: at + delay, before: at + 1000 };
   }
 
   // One op on the repo the list came from, then a refresh.
@@ -835,22 +842,60 @@ export default class GitList extends View {
     return paths.every((p) => p.startsWith(".git/") || op.paths.some((q) => p === q || (q.endsWith("/") && p.startsWith(q))));
   }
 
-  // The engine decides at commit time (as the stock Changes panel commits):
-  // the staged changes, or everything when nothing is staged; never while
-  // files are in conflict. The button's label is the last status's guess.
-  commit(cx) {
-    const text = this.commitInput.value().trim();
+  composeCommit(choice, cx) {
+    if (this.scope !== "worktree" || !this.work || this.commitRunning()) return;
+    this.commitMenu = false;
+    this.commitChoice = choice;
+    this.commit(cx);
+  }
+
+  amend(cx) {
+    this.commitMenu = false;
+    const where = this.work?.where;
+    if (!where || this.scope !== "worktree" || this.commitRunning() || this.amendLoading) return;
+    this.amendLoading = true;
+    this.loads.run(cx, "amend message", async (cx) => {
+      try {
+        const previous = await lastCommit(where);
+        if (this.work?.where.root !== where.root || this.work?.where.on !== where.on || this.scope !== "worktree") return;
+        openOverlay({ mod: "gitview", kind: "dialog", modal: true, width: 500, height: 320,
+          props: { amend: true, where, previous } });
+      } catch (e) {
+        notify({ title: "Cannot amend", body: message(e), level: "error" });
+      } finally {
+        this.amendLoading = false;
+        cx.notify();
+      }
+    });
+  }
+
+  // The default is staged only, matching the button's label and shortcut.
+  commit(cx, options = {}) {
+    const choice = options.choice ?? this.commitChoice ?? "staged";
+    const text = options.text ?? this.commitInput.value().trim();
     const work = this.work;
-    if (!text || !work || this.scope !== "worktree" || this.commitRunning()) return;
+    if (!work || this.scope !== "worktree" || this.commitRunning()) return;
+    this.commitMenu = false;
+    if (!text) {
+      this.commitMessageError = true;
+      this.commitInput.focus();
+      cx.notify();
+      return;
+    }
+    this.commitMessageError = false;
+    const where = options.where ?? work.where;
+    this.commitMenu = false;
     this.committing = Date.now();
     const started = Date.now();
     this.ownOp = { at: started + 60000, paths: [] }; // its index and refs writes
     this.loads.run(cx, "commit", async (cx) => {
       try {
-        const r = await gv(["commit", "--repo", work.where.root, "--root", ...onArgs(work.where.on), "--", text]);
-        this.commitInput.set_value("");
+        const r = choice === "auto"
+          ? await gv(["commit", "--repo", where.root, "--root", ...onArgs(where.on), "--", text])
+          : await writeCommit(where, text, choice, options.head);
+        if (choice !== "amend") { this.commitInput.set_value(""); this.commitChoice = null; }
         this.focusHere(cx);
-        notify({ title: "Committed", body: r.summary ?? text, level: "success" });
+        notify({ title: choice === "amend" ? "Amended" : "Committed", body: r.summary ?? text, level: "success" });
       } catch (e) {
         // The message stays in the box either way.
         if (Date.now() - started >= EXEC_LIMIT_MS) {
@@ -993,6 +1038,7 @@ export default class GitList extends View {
   }
 
   render(cx) {
+    if (this.amendPrompt) return this.amendPrompt.render();
     return this.tr.render(() => this.draw(cx));
   }
 

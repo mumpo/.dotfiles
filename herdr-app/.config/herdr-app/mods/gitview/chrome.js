@@ -4,7 +4,7 @@
 // functions; the views pass the handlers. Shared (linked; install copies it).
 
 import { div, svg } from "gpui-kit";
-import { h_flex, Textarea } from "gpui-base";
+import { h_flex, v_flex, Popover, Textarea } from "gpui-base";
 import { isDark, LETTER_COLOR } from "./model.js";
 
 const SPINNER = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
@@ -174,11 +174,11 @@ export function diffHeader(t, view, { loading, onClose, rich }) {
     .when(Boolean(onClose), (e) => e.child(iconButton(t, "gitview-diff-close", "x", "Close the diff", onClose)));
 }
 
-// The stock Changes panel's commit row: enter commits the staged changes,
-// or everything when nothing is staged.
-// `narrow`: the button just says "Commit" (the message gets the room).
-export function commitBox(t, state, typing, staged, busy, onCommit, narrow = false) {
-  const ready = Boolean(state.value().trim()) && !busy;
+const commitGreen = (t) => isDark(t.background) ? "#238636" : "#1f883d";
+
+// The commit row defaults to staged changes. `narrow` reduces button padding.
+export function commitBox(t, state, typing, staged, busy, onCommit, narrow = false, menu = {}) {
+  const ready = !busy;
   const dark = isDark(t.background);
   return h_flex()
     .flex_none()
@@ -199,27 +199,65 @@ export function commitBox(t, state, typing, staged, busy, onCommit, narrow = fal
         .items_center()
         .rounded(8)
         .border_1()
-        .border_color(typing ? t.accent : t.border)
+        .border_color(menu.messageError ? t.ansi1 : typing ? t.accent : t.border)
+        .when(Boolean(menu.messageError), e => e.bg(t.ansi1 + "12").tooltip("Enter a commit message"))
         .cursor_text()
         .on_mouse_down("left", (_e, cx) => cx.stop_propagation())
         .child(Textarea.new(state).w_full().text_size(12).text_color(t.foreground)),
     )
     .child(
-      div()
+      h_flex().rounded(8).overflow_hidden().flex_none()
+      .bg(ready ? commitGreen(t) : (dark ? "#105823" : "#95d8a6"))
+      .child(div()
         .id("gitview-commit")
         .h(32)
-        .px(12)
+        .px(narrow ? 8 : 12)
         .flex_none()
         .when(ready, (e) => e.cursor_pointer())
         .on_click((_e, cx) => onCommit(cx))
         .flex()
         .items_center()
-        .rounded(8)
-        .bg(ready ? (dark ? "#238636" : "#1f883d") : (dark ? "#105823" : "#95d8a6"))
+        .bg(ready ? commitGreen(t) : (dark ? "#105823" : "#95d8a6"))
         .text_color(ready ? "#ffffff" : (dark ? "#ffffff66" : "#ffffffcc"))
         .text_size(12)
-        .child(busy ? "Committing…" : narrow ? "Commit" : staged ? "Commit staged" : "Commit all"),
+        .child(busy ? "Committing…" : staged ? "Commit staged" : "Commit all"))
+      .child(Popover.new("gitview-commit-options").open(Boolean(menu.open)).anchor("bottom_right")
+        .on_open_change((open, cx) => menu.onOpen?.(open && !busy, cx))
+        .trigger(div().id("gitview-commit-options-trigger").w(26).h(32).flex().items_center().justify_center()
+          .border_l(1).border_color("#ffffff33").text_color("#ffffff").cursor_pointer().tooltip("Commit options")
+          .child(svg("mods/github-files/chevron-down.svg").size(12)))
+        .content(v_flex().w(208).p(4).gap(2).rounded(8).border_1().border_color(t.border).bg(t.popover).text_color(t.foreground)
+          .on_mouse_down("left", (_e, cx) => cx.stop_propagation())
+          .on_key_down((e, cx) => {
+            const m = e.modifiers ?? {};
+            if (m.control || m.platform || m.alt) return;
+            const key = m.shift ? e.key.toUpperCase() : e.key;
+            const choice = { c: "staged", C: "all", A: "amend" }[key];
+            if (choice) { cx.stop_propagation(); menu.onPick?.(choice, cx); }
+          })
+          .children([["staged", "Commit staged", "c"], ["all", "Commit all", "C"], ["amend", "Amend", "A"]].map(([choice, label, key]) =>
+            h_flex().id(`gitview-commit-${choice}`).h(30).px(8).gap(12).items_center().rounded(5).cursor_pointer()
+              .hover(s => s.bg(t.hover)).on_click((_e, cx) => { cx.stop_propagation(); menu.onPick?.(choice, cx); })
+              .child(div().flex_1().text_size(12).child(label)).child(keycap(t, key)))))),
     );
+}
+
+export function amendDialog(t, state, handle, apply, close) {
+  const button = (id, label, primary, action) => h_flex().id(id).h(32).px(14).gap(6).items_center().rounded(8)
+    .bg(primary ? commitGreen(t) : t.raised).text_color(primary ? "#ffffff" : t.foreground).cursor_pointer()
+    .on_click((_e, cx) => { cx.stop_propagation(); action(cx); }).child(label);
+  return v_flex().id("gitview-amend-dialog").w(500).p(18).gap(12).rounded(10).bg(t.popover).text_color(t.foreground).text_size(13)
+    .track_focus(handle).on_key_down((e, cx) => {
+      if (e.key === "escape") { cx.stop_propagation(); close(cx); }
+    })
+    .child(div().text_size(15).font_semibold().child("Amend last commit?"))
+    .child(div().text_color(t.muted).child("Update the last commit with staged changes and this message."))
+    .child(div().p(10).rounded(8).border_1().border_color(t.input).child(Textarea.new(state).w_full().text_size(13)))
+    .child(h_flex().items_center().gap(6).text_size(11).text_color(t.dim).child(keycap(t, "shift")).child(keycap(t, "enter")).child("new line"))
+    .child(h_flex().justify_end().gap(8)
+      .child(button("gitview-amend-cancel", "Cancel", false, close).child(keycap(t, "escape")))
+      .child(button("gitview-amend-apply", "Amend", true, apply)
+        .child(keycap(t, "enter").bg("#ffffff20").border_color("#ffffff40").text_color("#ffffffcc"))));
 }
 
 // ---- keys ---------------------------------------------------------------------
