@@ -1,5 +1,18 @@
 nvim/lazy-lock.json
 
+# Claude runtime state
+claude/.claude/backups/
+claude/.claude/cache/
+claude/.claude/ide/
+
+# OpenCode generated files and Herdr-managed integration
+opencode/.config/opencode/opencode.json.tui-migration.bak
+opencode/.config/opencode/package-lock.json
+opencode/.config/opencode/plugins/herdr-agent-state.js
+
+# Raycast settings exports
+raycast/.config/raycast/*.rayconfig
+
 # Tmux plugins are installed via tpm
 tmux/.tmux/plugins
 
